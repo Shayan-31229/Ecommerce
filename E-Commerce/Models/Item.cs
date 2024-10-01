@@ -21,7 +21,7 @@ namespace E_Commerce.Models
         public int qty { get; set; }
 
         [StringLength(255)]
-        public string featured_pic { get; set; }
+        public string? featured_pic { get; set; }
         public string? description { get; set; }
          
         public string? short_description { get; set; }

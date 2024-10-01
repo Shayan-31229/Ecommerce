@@ -1,0 +1,171 @@
+﻿@model E_Commerce.Models.Item
+
+@{
+    ViewData["Title"] = "Edit";
+    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="card mb-3">
+        <div class="card-body py-2"> 
+            <a  asp-action="Index" class="btn-floating btn-info btn-sm my-0 mx-1 waves-effect waves-light float-end" title="Go to listing page"><i class="fa fa-list"></i></a>            
+            <h3 class="m-0">Edit</h3>
+        </div>
+    </div>
+
+    <form asp-action="Edit" class="formLoader">
+        <div class="card">
+            <div class="card-body">
+                
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 d-none">
+                        <input type="hidden" asp-for="id" />
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="end_category_id" class="control-label"></label>
+                            <select asp-for="end_category_id" class ="form-control browser-default custom-select" asp-items="ViewBag.end_category_id"></select>
+                            <span asp-validation-for="end_category_id" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="title" class="control-label"></label>
+                            <input asp-for="title" class="form-control" />
+                            <span asp-validation-for="title" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="barcode" class="control-label"></label>
+                            <input asp-for="barcode" class="form-control" />
+                            <span asp-validation-for="barcode" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="old_price" class="control-label"></label>
+                            <input asp-for="old_price" class="form-control" />
+                            <span asp-validation-for="old_price" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="price" class="control-label"></label>
+                            <input asp-for="price" class="form-control" />
+                            <span asp-validation-for="price" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="qty" class="control-label"></label>
+                            <input asp-for="qty" class="form-control" />
+                            <span asp-validation-for="qty" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="featured_pic" class="control-label"></label>
+                            <input asp-for="featured_pic" class="form-control" />
+                            <span asp-validation-for="featured_pic" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="description" class="control-label"></label>
+                            <input asp-for="description" class="form-control" />
+                            <span asp-validation-for="description" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="short_description" class="control-label"></label>
+                            <input asp-for="short_description" class="form-control" />
+                            <span asp-validation-for="short_description" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="features" class="control-label"></label>
+                            <input asp-for="features" class="form-control" />
+                            <span asp-validation-for="features" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="terms_conditions" class="control-label"></label>
+                            <input asp-for="terms_conditions" class="form-control" />
+                            <span asp-validation-for="terms_conditions" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="hits" class="control-label"></label>
+                            <input asp-for="hits" class="form-control" />
+                            <span asp-validation-for="hits" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="is_featured" class="control-label"></label>
+                            <input asp-for="is_featured" class="form-control" />
+                            <span asp-validation-for="is_featured" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="sort" class="control-label"></label>
+                            <input asp-for="sort" class="form-control" />
+                            <span asp-validation-for="sort" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="status" class="control-label"></label>
+                            <select asp-for="status" class ="form-control browser-default custom-select">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                            <span asp-validation-for="status" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="remarks" class="control-label"></label>
+                            <input asp-for="remarks" class="form-control" />
+                            <span asp-validation-for="remarks" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                </div><!--.row-->
+            </div><!--.card-body-->
+            <div class="card-footer">
+                <button type="reset" class="btn btn-danger waves-effect"><i class="fa fa-refresh"></i> Reset</button>
+                <button type="submit" class="btn btn-success waves-effect"><i class="fa fa-save"></i> Update</button>
+            </div><!--.card-footer-->
+        </div><!--.card-->
+    </form>
+ 
+</div><!--.page-content-->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

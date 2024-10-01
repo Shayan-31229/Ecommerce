@@ -1,0 +1,75 @@
+﻿@model E_Commerce.Models.EndCategory
+
+@{
+    ViewData["Title"] = "Edit";
+    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="card mb-3">
+        <div class="card-body py-2"> 
+            <a  asp-action="Index" class="btn-floating btn-info btn-sm my-0 mx-1 waves-effect waves-light float-end" title="Go to listing page"><i class="fa fa-list"></i></a>            
+            <h3 class="m-0">Edit</h3>
+        </div>
+    </div>
+
+    <form asp-action="Edit" class="formLoader">
+        <div class="card">
+            <div class="card-body">
+                
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 d-none">
+                        <input type="hidden" asp-for="id" />
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="sub_category_id" class="control-label"></label>
+                            <select asp-for="sub_category_id" class ="form-control browser-default custom-select" asp-items="ViewBag.sub_category_id"></select>
+                            <span asp-validation-for="sub_category_id" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="title" class="control-label"></label>
+                            <input asp-for="title" class="form-control" />
+                            <span asp-validation-for="title" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="sort" class="control-label"></label>
+                            <input asp-for="sort" class="form-control" />
+                            <span asp-validation-for="sort" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label asp-for="status" class="control-label"></label>
+                            <select asp-for="status" class ="form-control browser-default custom-select">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                            <span asp-validation-for="status" class="text-danger"></span>
+                        </div>
+                    </div><!--.col-->
+                    
+                </div><!--.row-->
+            </div><!--.card-body-->
+            <div class="card-footer">
+                <button type="reset" class="btn btn-danger waves-effect"><i class="fa fa-refresh"></i> Reset</button>
+                <button type="submit" class="btn btn-success waves-effect"><i class="fa fa-save"></i> Update</button>
+            </div><!--.card-footer-->
+        </div><!--.card-->
+    </form>
+ 
+</div><!--.page-content-->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

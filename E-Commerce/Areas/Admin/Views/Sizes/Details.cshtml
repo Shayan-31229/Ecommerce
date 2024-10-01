@@ -1,0 +1,66 @@
+﻿@model E_Commerce.Models.Size
+
+@{
+    ViewData["Title"] = "Details";
+    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-content">
+    <div class="card mb-3">
+        <div class="card-body py-2"> 
+            <a  asp-action="Index" class="btn-floating btn-info btn-sm my-0 mx-1 waves-effect waves-light float-end" title="Go to listing page"><i class="fa fa-list"></i></a>            
+            <h3 class="m-0">Details</h3>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.title)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.title)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.sort)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.sort)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.status)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.status)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.created)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.created)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.created_by)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.created_by)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.modified)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.modified)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="box">
+                        <span class="caption">@Html.DisplayNameFor(model => model.modified_by)&nbsp;</span>
+                        <div class="value">@Html.DisplayFor(model => model.modified_by)&nbsp;</div>
+                    </div><!--.box-->
+                </div><!--.col-->
+           </div><!--.row-->
+
+        </div><!--.card-body-->
+    </div><!--.card-->
+
+</div><!--.page-content-->
+ 
