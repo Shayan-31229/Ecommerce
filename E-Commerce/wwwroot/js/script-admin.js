@@ -1,7 +1,7 @@
 $(function () {
     // SideNav Initialization
     $(".button-collapse").sideNav({
-        edge: _isRtl ? "right" : "left", // Choose the horizontal origin
+        edge:  "left", // Choose the horizontal origin
         // breakpoint: 1700,   // Breakpoint for button collapse
         // menuWidth: 240,     // Width for sidenav
         //slim: true,
@@ -31,7 +31,7 @@ $(function () {
             autoclose: true,
             todayBtn: true,
             todayHighlight: true,
-            language: _lang,
+            language: "en",
         });
     }
 

@@ -27,7 +27,7 @@ $(function () {
     });
 
     $(".button-collapse").sideNav({
-        edge: _isRtl ? "right" : "left", // Choose the horizontal origin
+        edge: "left", // Choose the horizontal origin
         breakpoint: 1700, // Breakpoint for button collapse
         menuWidth: 240, // Width for sidenav
         slim: true,
