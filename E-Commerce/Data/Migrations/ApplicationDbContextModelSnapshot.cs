@@ -143,7 +143,7 @@ namespace E_Commerce.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "39ae4fe9-4599-4cd0-bffa-9625058dce7c",
+                            Id = "66feb4e1-2f1a-42e1-b5dc-7a12775b4d61",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "6ab77101-b4bc-4dc9-9986-cc508e30d30d",
                             Email = "alamnaryab@gmail.com",
@@ -152,7 +152,7 @@ namespace E_Commerce.Data.Migrations
                             IsAdmin = true,
                             IsLocked = false,
                             LockoutEnabled = false,
-                            MemberSince = new DateTime(2024, 10, 1, 9, 1, 8, 242, DateTimeKind.Local).AddTicks(8326),
+                            MemberSince = new DateTime(2024, 10, 1, 11, 28, 13, 56, DateTimeKind.Local).AddTicks(1704),
                             NormalizedEmail = "ALAMNARYAB@GMAIL.COM",
                             NormalizedUserName = "ALAMNARYAB@GMAIL.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEAgwzx5s+AhmTjSDN9xXrHZDKNl8YG8xao+5jUGw9tyTc+hDJX/R73bgdgTtRpEqng==",
@@ -172,7 +172,7 @@ namespace E_Commerce.Data.Migrations
                         },
                         new
                         {
-                            Id = "6c369e76-afbd-4802-a72a-559529271c20",
+                            Id = "1da7364d-fc6b-4e3e-b290-56727fec2c65",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "276362ce-72e3-4fef-a19e-54ff316295b4",
                             Email = "alamadcs@gmail.com",
@@ -181,7 +181,7 @@ namespace E_Commerce.Data.Migrations
                             IsAdmin = false,
                             IsLocked = false,
                             LockoutEnabled = false,
-                            MemberSince = new DateTime(2024, 10, 1, 9, 1, 8, 242, DateTimeKind.Local).AddTicks(8420),
+                            MemberSince = new DateTime(2024, 10, 1, 11, 28, 13, 56, DateTimeKind.Local).AddTicks(1774),
                             NormalizedEmail = "ALAMADCS@GMAIL.COM",
                             NormalizedUserName = "ALAMADCS@GMAIL.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEAgwzx5s+AhmTjSDN9xXrHZDKNl8YG8xao+5jUGw9tyTc+hDJX/R73bgdgTtRpEqng==",
@@ -255,6 +255,44 @@ namespace E_Commerce.Data.Migrations
                             status = 1,
                             title = "Female"
                         });
+                });
+
+            modelBuilder.Entity("E_Commerce.Models.LoginLog", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("loggedin")
+                        .HasColumnType("int");
+
+                    b.Property<string>("message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("pre_ids")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("user_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("LoginLogs");
                 });
 
             modelBuilder.Entity("E_Commerce.Models.Nationality", b =>
@@ -579,6 +617,17 @@ namespace E_Commerce.Data.Migrations
                     b.Navigation("Nationality");
                 });
 
+            modelBuilder.Entity("E_Commerce.Models.LoginLog", b =>
+                {
+                    b.HasOne("E_Commerce.Data.ApplicationUser", "User")
+                        .WithMany("loginLogs")
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -628,6 +677,11 @@ namespace E_Commerce.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("E_Commerce.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("loginLogs");
                 });
 
             modelBuilder.Entity("E_Commerce.Models.Gender", b =>

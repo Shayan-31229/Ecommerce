@@ -13,10 +13,13 @@ namespace E_Commerce.Data
     {
     }
 
-    public DbSet<Gender> Genders { get; set; }
-    public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
 
-    public DbSet<Settings> Settings { get; set; }
+        public DbSet<Settings> Settings { get; set; }
+
+        public DbSet<LoginLog> LoginLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

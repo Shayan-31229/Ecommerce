@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Identity5</title>
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/mdb.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style-admin.css" asp-append-version="true" /> 
+    <link rel="stylesheet" href="~/css/common.css" asp-append-version="true" /> 
+    @await RenderSectionAsync("Styles", required: false)
+
+    <link rel="stylesheet" href="~/css/Font-Awesome/css/all.css" asp-append-version="true" />
+    <script type="text/javascript" src="~/js/jquery-3.3.1.min.js"></script>
+    <partial name="../../Views/Shared/_domain" />
+
+</head>
+<body class="fixed-sn mdb-skin en">
+    <header>
+        <partial name="Admin/_sidebar" />
+        <partial name="Admin/_topbar" />
+         
+    </header>
+    <main class="main mx-0">
+        <partial name="_FlashMessages" />
+        <div class="container-fluid mb-5"> 
+            @RenderBody()
+        </div>
+    </main>
+
+    <partial name="Admin/_footer" />
+    <partial name="_MyModal" />
+
+
+    <script type="text/javascript" src="~/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/js/mdb.js"></script>
+    <script type="text/javascript" src="~/js/script-admin.js"></script>
+     
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

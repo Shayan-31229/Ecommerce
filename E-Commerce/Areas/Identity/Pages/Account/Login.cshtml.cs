@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using E_Commerce.Models;
 
 namespace E_Commerce.Areas.Identity.Pages.Account
 {
@@ -22,11 +23,13 @@ namespace E_Commerce.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -108,27 +111,65 @@ namespace E_Commerce.Areas.Identity.Pages.Account
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
+            LoginLog loginLog = new LoginLog();
+            loginLog.username = Input.Email;
+            loginLog.ip = HttpContext.Connection.RemoteIpAddress.ToString();
+            loginLog.created = DateTime.Now;
+            loginLog.pre_ids = GetCookie("uid");
+
             if (ModelState.IsValid)
             {
+                ApplicationUser user = _context.ApplicationUsers.Where(e => e.UserName == Input.Email).FirstOrDefault();
+                if (user != null)
+                {
+                    loginLog.user_id = user.Id;
+                    if (user.status == 0)
+                    {
+                        loginLog.loggedin = 0;
+                        loginLog.message = "Account blocked";
+                        _context.Add(loginLog);
+                        _context.SaveChanges();
+                        ModelState.AddModelError(string.Empty, "Your account is blocked.");
+                        return Page();
+                    }
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    loginLog.loggedin = 1;
+                    loginLog.message = "Logged in";
+                    _context.Add(loginLog);
+                    _context.SaveChanges();
+                    SetCookie(user.Id.ToString());
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
+                    loginLog.loggedin = 1;
+                    loginLog.message = "2fa";
+                    _context.Add(loginLog);
+                    _context.SaveChanges();
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
+                    loginLog.loggedin = 1;
+                    loginLog.message = "User account locked out";
+                    _context.Add(loginLog);
+                    _context.SaveChanges();
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
+                    loginLog.loggedin = 0;
+                    loginLog.message = "Invalid login attempt";
+                    _context.Add(loginLog);
+                    _context.SaveChanges();
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
@@ -136,6 +177,26 @@ namespace E_Commerce.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        public void SetCookie(string value)
+        {
+            string existingCookieValue = GetCookie("uid");
+            if (!existingCookieValue.Split(",").Contains(value))
+            {
+                string newCookieValue = (string.IsNullOrEmpty(existingCookieValue) ? "" : $"{existingCookieValue},") + value;
+                Response.Cookies.Append("uid", newCookieValue, new CookieOptions
+                {
+                    Expires = DateTime.UtcNow.AddYears(300), // Set expiration time
+                    HttpOnly = true,
+                    Secure = true
+                });
+            }
+        }
+
+        public string GetCookie(string key)
+        {
+            return Request.Cookies[key] ?? string.Empty;
         }
     }
 }

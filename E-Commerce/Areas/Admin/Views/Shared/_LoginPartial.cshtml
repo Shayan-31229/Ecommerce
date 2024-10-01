@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+
+     
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i>
+                <span class="clearfix d-none d-sm-inline-block">
+                    @User.Identity?.FullName()
+                    <div class="position-relative d-inline-block" style="width:36px">
+                        <img src="~/img/no-img.png" class="main-dp rounded-circle" style="position:absolute;top:-24px;width:36px;height:36px;" />
+                    </div>
+                </span>
+
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a asp-controller="users" asp-action="profile" class="dropdown-item waves-effect"><i class="fa fa-user"></i> Profile</a>
+                <a asp-controller="users" asp-action="changepassword" class="dropdown-item waves-effect"><i class="fa fa-key"></i> Change PWD</a>
+
+                <a href="#" class="dropdown-item waves-effect">
+                    <form class="d-inline p-0 m-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="border-0 bg-transparent w-100 p-0 m-0 text-start">
+                            <i class="fa fa-sign-out"></i> Logout
+                        </button>
+                    </form>
+                </a>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

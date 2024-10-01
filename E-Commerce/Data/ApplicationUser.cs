@@ -46,6 +46,7 @@ namespace E_Commerce.Data
     public DateTime? modified { get; set; }
 
     public int? modified_by { get; set; }
+    public ICollection<LoginLog>? loginLogs { get; set; }
 
-    }
+  }
 }

@@ -1,0 +1,33 @@
+[data-alam-bilang-lang="en"] .txt-alam-lang-input {
+    direction: ltr!important;
+    text-align: left!important;
+}
+[data-alam-bilang-lang="ar"] .txt-alam-lang-input {
+    direction:rtl!important;
+    text-align: right!important;
+}
+
+.btn-alam-lang-input{
+    display: inline-block;
+    width: 40px; 
+    margin-left: 20px;
+    margin-right: 20px; 
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    text-align: center!important; 
+    font-size: 13px;
+    line-height: 1.5em;
+    border: 1px solid #78aeb8;
+    background: #48e3f0;
+    color: #ffffff;
+    cursor: pointer;
+}
+[data-alam-bilang-enable="0"] .btn-alam-lang-input{
+    border: 1px solid #d9d9d9;
+    background: #f3f3f3;
+    color: #adb2b1;
+    cursor: pointer;
+}
+.btn-alam-lang-input:hover{
+    box-shadow: -1px -1px 2px #CCC;
+}

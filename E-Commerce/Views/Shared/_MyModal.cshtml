@@ -1,0 +1,38 @@
+﻿<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body excl ltri">
+                <div id="dp-wrapper">
+                    <input type="file" id="uploadFile" />
+                    <input type="hidden" id="txtProfile" value="<?php echo $profile['id']; ?>" />
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3 excl">
+                            <br>
+                            <div class="preview mx-auto excl hideit tohide"></div><br>
+                            <div class="preview mx-auto excl hideit tohide" style="border-radius: 50%;"></div>
+                        </div>
+                        <div class="col-md-12 col-lg-9">
+                            <div class="img-wrapper excl" style="height:400px;">
+                                <div class="placeholder text-center">
+                                    <h1>Click Above button to choose image</h1>
+                                </div>
+                                <img alt="image" id="img" class="hideit tohide" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-lg-6 text-center">
+                            <span class="btn-dp btn btn-sm btn-info rotate-left hideit tohide"><i class="fa fa-rotate-left"></i></span>&nbsp;
+                            <span class="btn-dp btn btn-sm btn-info rotate-right hideit tohide"><i class="fa fa-rotate-right"></i></span>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 text-right">
+                            <button id="btnUpload" class="btn-dp btn btn-success hideit tohide"><span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> <i class="fa fa-upload"></i> Upload</button>
+                            <button type="button" class="btn btn-danger float-end" data-dismiss="modal"><?php echo __('Cancel') ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!--.modal-body-->
+        </div><!--.modal-content-->
+    </div><!--.modal-dialog-->
+</div><!--#myModal-->

@@ -1,0 +1,97 @@
+﻿@model E_Commerce.Models.Settings
+
+@{
+    ViewData["Title"] = "Delete";
+    //Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-content">
+    <div class="card mb-3">
+        <div class="card-body py-2"> 
+            <a  asp-action="Index" class="btn-floating btn-info btn-sm my-0 mx-1 waves-effect waves-light float-end" title="Go to listing page"><i class="fa fa-list"></i></a>            
+            <h3 class="m-0">Delete</h3>
+        </div>
+    </div>
+
+    <div class="alert alert-danger text-center">Are you sure you want to delete this record?</div>
+
+    <form asp-action="Delete" class="formLoader">
+        <div class="card">
+            <div class="card-body"> 
+                <div class="row">
+                    
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.title)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.title)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.value)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.value)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.group)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.group)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.sort)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.sort)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.status)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.status)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.created)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.created)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.created_by)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.created_by)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.modified)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.modified)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <span class="caption">@Html.DisplayNameFor(model => model.modified_by)&nbsp;</span>
+                            <div class="value">@Html.DisplayFor(model => model.modified_by)&nbsp;</div>
+                        </div><!--.box-->
+                    </div><!--.col-->
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 d-none">
+                        <input type="hidden" asp-for="id" />
+                    </div><!--.col-->
+                    
+                </div><!--.row-->
+            </div><!--.card-body-->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+            </div><!--.card-footer-->
+        </div><!--.card-->
+    </form>
+</div><!--.page-content-->

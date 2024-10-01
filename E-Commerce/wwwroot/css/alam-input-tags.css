@@ -1,0 +1,85 @@
+.alam-input-tags-wrapper{
+    border:1px solid #CCC;
+    border-radius:2px;
+}
+.txt-alam-input-tags{
+    border:0px solid #EEE;
+    outline:none; 
+    max-width:60px;
+}
+.txt-alam-input-tags:focus{ 
+    box-shadow: none!important;
+}
+.alam-input-tags-wrapper .dropdown-item:focus{
+    background:blue;
+    color:#FFF;
+    outline: none;
+}
+
+.alam-input-tags-wrapper .dropdown-item{
+    border-left:5px solid transparent;
+}
+/* .alam-input-tags-wrapper .dropdown-item.border-success{
+    border-color:green;
+}
+.alam-input-tags-wrapper .dropdown-item.border-danger{
+    border-color:red;
+} */
+.alam-input-tags-wrapper .tags-wrapper .badge .btn-remove{
+    cursor:pointer;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+.dropdown-menu.show {
+    display: block;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+ 
+.badge-success{background-color: #28a745; color:#FFF;}
+.badge-danger{background-color: #dc3545; color:#FFF;}
+.badge-warning{background-color: #ffc107; color:#000;}
+.badge-info{background-color: #17a2b8; color:#000;}
+.badge-primary{background-color: #0000FF; color:#000;}
+.badge-dark{background-color: #343a40; color:#000;}
+
+.border-success{border-color: #28a745!important;}
+.border-danger{border-color: #dc3545!important;}
+.border-warning{border-color: #ffc107!important;}
+.border-info{border-color: #17a2b8!important;}
+.border-primary{border-color: #0000FF!important;}
+.border-dark{border-color: #343a40!important;}
+
+.d-inline{display: inline;}
+.d-inline-block{display: inline-block;}
+.m-1{margin: 5px;}
+.position-relative{position: relative;}
+.position-absolute{position: absolute;}

@@ -1,0 +1,45 @@
+
+.application-main-title{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 100%;
+    position: absolute; 
+    top:0px;
+    height: 100%;
+    padding: 10px;
+}
+main.main {
+    min-height: calc(100vh - 50px);
+}
+ 
+form .error-message{
+    font-size:13px;
+    color:red;
+}
+
+
+/*form add form wizard stepper*/
+.stepper-head-icon{ 
+    border-radius: 100%;
+    background-color: lightgray;
+    padding: 10px;
+    width: 42px;
+    display: inline-block;
+    text-align: center;
+    height: 42px;
+}
+.stepper-active .stepper-head-icon{ 
+    border-radius: 100%;
+    background-color: #a19062;
+    color: #FFF;
+    padding: 10px;
+    width: 42px;
+    display: inline-block;
+    text-align: center;
+    height: 42px;
+}
+/*form add form wizard stepper ends here*/
+
+.navy-blue-skin .navbar .navbar-nav .nav-item .dropdown-menu a:hover, .navy-blue-skin .navbar .navbar-nav .nav-item .dropdown-menu a:focus, .navy-blue-skin .navbar .navbar-nav .nav-item .dropdown-menu a:active {
+    background-color: #a19062;
+}

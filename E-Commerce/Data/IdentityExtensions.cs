@@ -6,7 +6,14 @@ using System.Security.Principal;
 
 public static class IdentityExtensions
 {
-  public static string FullName(this IIdentity identity)
+
+    public static string Id(this IIdentity identity)
+    {
+        var claim = ((ClaimsIdentity)identity).FindFirst("Id");
+        // Test for null to avoid issues during local testing
+        return (claim != null) ? claim.Value : string.Empty;
+    }
+    public static string FullName(this IIdentity identity)
   {
     var claim = ((ClaimsIdentity)identity).FindFirst("FullName");
     // Test for null to avoid issues during local testing

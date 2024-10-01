@@ -1,0 +1,115 @@
+main.main{min-height: calc(100vh - 50px);}
+.img-logo{max-height: 45px;}
+h3.m-0{color:#33b5e5;}
+.box{
+    border: 1px solid #DDD;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+.box .caption{
+    font-size:12px;
+    color:#444;
+}
+.box .value{
+    color:#111;
+}
+table.table td .btn-sm{
+    margin-bottom: 3px;
+}
+.dataTables_filter .form-control{
+    height: auto!important;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+table.table-sm td {
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+}
+table.table thead input.txtDtFilter{
+    height:1.5em;
+}
+.dataTables_wrapper label{display:inline;}
+.dataTables_wrapper select.custom-select-sm{height:auto;padding-top: 0px;padding-bottom: 0px;}
+.navbar .notifications-nav .dropdown-menu {
+    width:auto;
+}
+.newcontact-item span.email{
+    display: block;
+}
+.newcontact-item span.date{
+    font-size: 12px; 
+}
+div.dt-buttons { 
+    float: inherit!important;
+}
+form .error-message{
+    font-size:13px;
+    color:red;
+}
+form div.error input{
+    border-color: red;
+}
+body.rtl{
+    direction: rtl!important;
+}
+body.rtl:not(.fa){
+    direction: rtl;
+    text-align: right;
+}
+.rtl.fixed-sn .double-nav, .rtl.fixed-sn footer, .rtl.fixed-sn main {
+    padding-left: 0;
+    padding-right: 15rem;
+}
+.rtl .double-nav .button-collapse { 
+    right: 10px; 
+}
+.rtl .side-nav ul {
+    padding-right: 0; 
+}
+.rtl .side-nav a {
+    padding-right: 20px;
+}
+.rtl .side-nav .search-form input[type=text] {
+    padding-left: unset;
+    padding-right: 1.88rem;
+}
+@media (max-width: 1440px){
+    .rtl.fixed-sn .double-nav, .rtl.fixed-sn footer, .rtl.fixed-sn main {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+.side-nav .fa-angle-down.rotate-icon {
+    top:0px;
+}
+ 
+ 
+.txtDtFilter{width:auto;}
+th:last-child .txtDtFilter{width: 95px;}
+.chkALLWrapper{background: rgba(255,255,255,0.5);}
+
+
+.print-page {
+    min-height: 21cm;
+    width: 27.5cm;
+}
+.table.tbl-po th,
+.table.tbl-po td{
+    border-color: black;
+}
+
+.info-gradient {
+    /* fallback for old browsers */
+    background: #4facfe;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(79,172,254,0.5), rgba(0,242,254,0.5));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(79,172,254,0.5), rgba(0,242,254,0.5))
+  }
+.approval-wrapper{
+    margin-bottom: 15px;
+}
+.recommBox{background-color: #EEE;}

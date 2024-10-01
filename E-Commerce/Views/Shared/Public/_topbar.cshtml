@@ -1,0 +1,43 @@
+﻿<!-- Navbar  -->
+<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar info-color double-nav">
+
+    <!-- SideNav slide-out button  -->
+    <div class="float-start">
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
+    </div>
+
+    <!-- Breadcrumb  -->
+    <div class="breadcrumb-dn mr-auto" >
+        <p>
+            <a  asp-area="Admin" asp-action="Index" asp-controller="Home" class="nav-link"><i class="fa fa-shield"></i> Admin</a>
+        </p>
+    </div>
+
+    <!-- Navbar links  -->
+    <ul class="nav navbar-nav nav-flex-icons ml-auto">
+
+        <li class="nav-item">
+
+            @* <a href="/ar/admin" class="nav-link rounded waves-effect bg-primary " title="التبديل إلى اللغة العربية"><i class="fa fa-language"></i> عربى</a>
+            <a href="/en/admin" class="nav-link rounded waves-effect bg-primary" title="Switch to English language"><i class="fa fa-language"></i> English</a> *@
+        </li>
+
+        <!-- Dropdown  -->
+        <!-- <li class="nav-item dropdown notifications-nav">
+          <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <span class="badge red"> </span> <i class="fas fa-bell"></i>
+            <span class="d-none d-md-inline-block"><?php echo __('Notifications'); ?></span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-<?php echo $_lang=='en'?'right':'left'; ?> dropdown-primary newcontacts" aria-labelledby="navbarDropdownMenuLink">
+
+          </div>
+        </li> -->
+         
+        <partial name="_LoginPartial" />
+
+    </ul>
+    <!-- Navbar links  -->
+
+</nav>
+<!-- Navbar  -->

@@ -1,0 +1,212 @@
+
+body{
+    background-image:url(../../img/desert2.jpg);
+    background-size: cover;   
+    background-attachment: fixed;
+}
+body.ar{
+    font-family: 'Cairo', sans-serif;    
+}
+ 
+.container{max-width:95%;}
+.tbl{
+    width:100%;
+    height:80vh;
+    display: table;
+}
+.tbl-cell{
+    width:100%;
+    height:100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+label{
+    display: inline-block;
+    font-weight: normal;
+    margin-right: 15px;
+}
+img.logo{max-height: 130px;}
+.page{
+    background: rgba(255,255,255,0.9);
+ 
+    padding:0px;
+    margin: 50px auto;
+    box-shadow:2px 2px 4px rgba(68,68,68,0.5);
+    min-height: 80vh;
+}
+ 
+.header{
+    padding:15px;
+    border-bottom:1px dashed #DDD;
+}
+.header h2,.header h3{
+    color:#948365;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px #101010;
+}
+.section{
+    padding:15px;
+    margin: 15px 0px;
+    border-bottom: 1px dotted #AAA;
+}
+.section-heading{
+    margin:-15px -15px 0 -15px;
+    text-align: center;
+    color:#6d6e71;
+    font-size: 28px;
+}
+body.ar .section-heading{
+    font-weight: bold;
+}
+.section-description{margin-bottom:15px; margin-top: 10px;}
+.section-description .label{font-size:85%;}
+.question-wrapper{
+    /* margin:0px -15px 15px -15px; */
+    padding:15px;
+    border-right:3px solid transparent;
+    border-left:3px solid transparent;
+}
+.question-wrapper:hover{
+    background:rgba(150,130,100,0.6);
+    color:#111;
+}
+.question-wrapper:hover .question{
+    color:#FFF;
+}
+body.en .question-wrapper:hover{
+    border-right:3px solid rgb(211, 143, 16);
+}
+body.ar .question-wrapper:hover{
+    border-left:3px solid rgb(211, 143, 16);
+}
+.question-wrapper:hover .checkmark{background: #DDD;}
+.question{
+    font-weight: bold;
+    color:#948365;
+}
+body.ar .question{font-size: 17px; }
+body.ar .question-note{text-align: right;}
+body.en .col-lang{text-align: right;}
+body.ar .col-logo{text-align: right;}
+body.ar .btn-ar{color:#999;}
+body.en .btn-en{color:#999;}
+
+a.btn-lang{text-decoration:none;}
+body.ar .ar{direction: rtl;}
+
+body.ar textarea{direction: rtl;}
+body.en textarea{direction: ltr;}
+.special{display: none;}
+@media screen and (max-width:510px) {
+    .header h2{
+        font-size: 22px;
+        margin-top: 0px;
+    }
+    .header h3{
+        font-size: 20px;
+    }
+    span.langDivider{display: none}
+    img.logo {
+        max-height: 100px;
+    }
+}
+@media print {
+    .print-hidden,
+    a[href]:after {
+        content: none
+    }
+    body.ar .question-wrapper:hover {
+        border-left: 3px solid transparent !important;
+    }
+    body.en .question-wrapper:hover {
+        border-right: 3px solid transparent !important;
+    }
+    .lblRadio input:checked ~ .checkmark {
+        border:13px solid rgb(126, 87, 14); 
+    }
+    .question-wrapper{page-break-inside: avoid;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************radio button style*/
+.lblRadio {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.lblRadio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: -1px;
+    left: 3px;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border:1px solid rgba(97, 58, 6, 0.5);
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.lblRadio:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.lblRadio input:checked ~ .checkmark {
+    background-color: #948365;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.lblRadio input:checked ~ .checkmark:after {
+    display: block;
+}
+.lblRadio input:focus ~ .checkmark {
+    box-shadow:1px 1px 2px #3590f8,-1px 1px 2px #3590f8,1px -1px 2px #3590f8,-1px -1px 2px #3590f8;
+}
+/* Style the indicator (dot/circle) */
+.lblRadio .checkmark:after {
+    left: 9px;
+    top: 6px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.form-control {
+    padding: 3px 12px;}

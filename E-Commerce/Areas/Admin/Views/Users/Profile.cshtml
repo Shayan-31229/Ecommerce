@@ -1,0 +1,529 @@
+﻿@model E_Commerce.Models.VMs.VMUserWithRoles
+@section Styles {
+    <link rel="stylesheet" href="~/css/addons/datatables.min.css" />
+    <link rel="stylesheet" href="~/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-datepicker.min.css" />
+
+
+
+
+    <style>
+        .imgWrap {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+
+        .preview {
+            padding: 0px;
+            background: #FFF;
+            border: 1px solid #DDD;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .hideit {
+            display: none;
+        }
+
+        .spinner {
+            display: none;
+        }
+
+        .active .spinner {
+            display: inline-block;
+        }
+
+        .testimonial-card .avatar {
+            width: 160px;
+        }
+
+        .placeholder {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+            color: lightgrey;
+        }
+
+        .testimonial-card .avatar {
+            box-shadow: 2px 2px 4px #CCC;
+            height: 160px;
+        }
+
+        .row2 {
+            margin: 0 -15px 0 -15px;
+        }
+    </style>
+}
+
+<div class="card mb-4">
+    <div class="card-body py-2">
+
+        <h4 class="mb-2 mb-sm-0 pt-1">User Profile</h4>
+    </div>
+</div>
+
+@{
+    var td = (Context.GetRouteValue("tab") ?? "membership").ToString();
+}
+
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <!-- Card -->
+        <div class="card testimonial-card mb-3">
+
+            <!-- Background color -->
+            <div class="card-up aqua-gradient"></div>
+
+            <!-- Avatar -->
+            <div class="avatar mx-auto white">
+
+                <div class="imgWrap">
+
+
+                    @{
+                        var imgsrc = "/img/no-img.png";
+                    }
+                    <img src="@imgsrc" />
+                </div>
+            </div>
+
+
+            <!-- Content -->
+            <div class="card-body position-relative">
+
+                <div class=" w-100 text-center" style="position:absolute;top:-50px;">
+                    <span class="btn btn-sm btn-info" id="uploadimage" style="margin-<?php echo $_lang=='en'?'left':'right'; ?>:155px;" title="<?php echo __('Change image') ?>"><i class="fa fa-camera"></i></span>
+                </div>
+
+                <!-- Name -->
+                <img class="imgBarcode border p-1 img-fluid border-danger bg-danger1" alt="member-barcode" id="barcode" src="/en/barcode/@Uri.EscapeDataString(Model.User.FullName.ToString())">
+                <hr>
+                <!-- Quotation -->
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed">
+                            <tbody>
+                                <tr><td class="text-left py-1">Membership ID</td> <td class="text-left py-1">@Model.User.Id</td></tr>
+                                <tr><td class="text-left py-1">Name</td> <td class="text-left py-1">@Model.User.FullName</td></tr>
+                                <tr><td class="text-left py-1">Nationality</td> <td class="text-left py-1">@Model.User?.Nationality?.title</td></tr>
+                                <tr><td class="text-left py-1">DOB</td> <td class="text-left py-1">@Model.User.dob</td></tr>
+                                <tr><td class="text-left py-1">Gender</td> <td class="text-left py-1">@Model.User.gender_id</td></tr>
+                                <tr><td class="text-left py-1">City</td> <td class="text-left py-1">@Model.User.address</td></tr>
+                                <tr><td class="text-left py-1">Email</td> <td class="text-left py-1">@Model.User.Email</td></tr>
+                                <tr><td class="text-left py-1">Joining date</td> <td class="text-left py-1">@Model.User.created.ToString("yyyy-MM-dd hh:mm:ss")</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- Card -->
+    </div><!--.col-->
+    <div class="col-md-8 col-sm-12">
+        <div class="mb-3">
+            <ul class="nav nav-tabs md-tabs aqua-gradient" id="myTabMD" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link @(td=="profile"?"active":"")" id="profile-tab-md" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><i class="fa fa-id-card"></i> <span class="d-none d-sm-inline-block">Profile</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(td=="logins"?"active":"")" id="logins-tab-md" data-toggle="tab" href="#logins" role="tab" aria-controls="logins" aria-selected="false"><i class="fa fa-skating"></i> <span class="d-none d-sm-inline-block">Logins</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link @(td=="update"?"active":"")" id="update-tab-md" data-toggle="tab" href="#update" role="tab" aria-controls="update" aria-selected="false"><i class="fa fa-edit"></i> <span class="d-none d-sm-inline-block">Update</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(td=="password"?"active":"")" id="password-tab-md" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-key"></i> <span class="d-none d-sm-inline-block">Password</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(td=="roles"?"active":"")" id="roles-tab-md" data-toggle="tab" href="#roles" role="tab" aria-controls="roles" aria-selected="false"><i class="fa fa-shield"></i> <span class="d-none d-sm-inline-block">Roles</span></a>
+                </li>
+
+            </ul>
+            <div class="tab-content card pt-5 pb-0" id="myTabContentMD">
+
+                <div class="tab-pane fade @(td=="profile"?"show active":"")" id="profile" role="tabpanel" aria-labelledby="profile-tab-md">
+
+                    <div class="table-responsive">
+                        <table class="table mdt table-striped table-hover" cellpadding="0" cellspacing="0">
+                            <thead class="aqua-gradient text-white">
+                                <tr>
+                                    <th>Card-SNo</th>
+                                    <th>barcode</th>
+                                    <th>package</th>
+                                    <th>amount</th>
+                                    <th>payment_method</th>
+                                    <th>start_date</th>
+                                    <th>end_date</th>
+                                    <th>status</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div><!--end tab-pane-->
+
+                <div class="tab-pane fade @(td=="logins"?"show active":"")" id="logins" role="tabpanel" aria-labelledby="logins-tab-md">
+                    <partial name="_ProfileLoginlogs" model="Model" />
+                </div><!--end tab-pane-->
+                <div class="tab-pane fade @(td=="update"?"show active":"")" id="update" role="tabpanel" aria-labelledby="update-tab-md">
+
+                    <partial name="_ProfileUpdate" model="Model" /> 
+
+                </div><!--end tab-pane-->
+                <div class="tab-pane fade @(td=="password"?"show active":"")" id="password" role="tabpanel" aria-labelledby="password-tab-md">
+                    <div class="pwd-wrapper">
+                        <div class="mx-auto" style="max-width:400px;">
+                            <div class="form-group">
+                                <label for="txt_password" class="control-label">Password</label>
+                                <input name="password" id="txt_password" class="form-control" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txt_confirm_password" class="control-label">Conform password</label>
+                                <input name="txt_confirm_password" id="txt_confirm_password" class="form-control" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sendEmail">Send Email</label>
+                                <div class="switch green-base">
+                                    <label>
+                                        No
+                                        <input type="checkbox" name="send_email" id="send_email" />
+                                        <span class="lever"></span> Yes
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="hidden" name="id" value="@Model.User.Id" />
+                            </div>
+                        </div>
+                        <div class="row2 card-footer text-right mt-4">
+                            <span class="btn btn-success btn-sm btn-change-pwd" data-uid="@Model.User.Id"><i class="fa fa-save"></i> Change password</span>
+                        </div>
+
+                    </div>
+                </div><!--end tab-pane-->
+                <div class="tab-pane fade @(td=="roles"?"show active":"")" id="roles" role="tabpanel" aria-labelledby="roles-tab-md">
+                    <div class="roles-wrapper">
+                        <div class="row">
+                            @foreach (var role in Model.Roles)
+                            {
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="switch green-base">
+                                        <label>
+                                            <input type="checkbox" name="@("role"+role.Id)" data-rid="@role.Name" class="chkRole" id="@("role"+role.Id)" @(Model.AssignedRoles.Contains(role.Name) ? "checked='checked'" : "")>
+                                            <span class="lever"></span>
+                                            @role.Name
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row2 card-footer text-right mt-4">
+                            <span class="btn btn-success btn-sm btn-roles" data-uid="@Model.User.Id"><i class="fa fa-save"></i> Update Roles</span>
+                        </div>
+                    </div>
+                </div><!--end tab-pane-->
+
+            </div><!--end tab-content-->
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div><!--.col-->
+</div><!--.row-->
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body excl ltri">
+                <div id="dp-wrapper">
+                    <input type="file" id="uploadFile" />
+                    <input type="hidden" id="txtProfile" value="<?php echo $profile['id']; ?>" />
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3 excl">
+                            <br>
+                            <div class="preview mx-auto excl hideit tohide"></div><br>
+                            <div class="preview mx-auto excl hideit tohide" style="border-radius: 50%;"></div>
+                        </div>
+                        <div class="col-md-12 col-lg-9">
+                            <div class="img-wrapper excl" style="height:400px;">
+                                <div class="placeholder text-center">
+                                    <h1>Click Above button to choose image</h1>
+                                </div>
+                                <img alt="image" id="img" class="hideit tohide" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-lg-6 text-center">
+                            <span class="btn-dp btn btn-sm btn-info rotate-left hideit tohide"><i class="fa fa-rotate-left"></i></span>&nbsp;
+                            <span class="btn-dp btn btn-sm btn-info rotate-right hideit tohide"><i class="fa fa-rotate-right"></i></span>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 text-right">
+                            <button id="btnUpload" class="btn-dp btn btn-success hideit tohide"><span class="spinner"><i class="fa fa-refresh fa-spin"></i></span> <i class="fa fa-upload"></i> Upload</button>
+                            <button type="button" class="btn btn-danger float-end" data-dismiss="modal"><?php echo __('Cancel') ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!--.modal-body-->
+        </div><!--.modal-content-->
+    </div><!--.modal-dialog-->
+</div><!--#myModal-->
+@section Scripts {
+    <script type="text/javascript" src="~/js/inputmask.js"></script>
+    <script type="text/javascript" src="~/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="~/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="~/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="~/js/jszip.min.js"></script>
+    <script type="text/javascript" src="~/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="~/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="~/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="~/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="~/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(function () {
+            $('.txtMobile').inputmask("0599999999");
+            $('.txtEid').inputmask("784-9999-9999999-9");
+
+
+
+            $('#updateRoles').click(function (e) {
+                e.preventDefault();
+                $("#myModal .modal-header").css('display', 'block');
+                $('#myModal .modal-title').html(__("Update user roles"));
+                $('#myModal .modal-footer').hide();
+                $('#myModal').modal('show');
+                $.ajax({
+                    url: $(this).attr('href'),
+                    cache: false,
+                    success: function (resp) {
+                        $('#myModal .modal-body').html(resp);
+                    },
+                    error: function (a, b) {
+                        alert('Ajax Error: Contact web admin');
+                    }
+                });
+            });
+
+            //change dp image
+            $('#uploadimage').click(function () {
+                $('#myModal2').modal('show');
+                $('#myModal2 .modal-dialog').addClass('modal-lg');
+                $("#btnUpload").removeClass('active');
+                $('#uploadFile, .btn-dp').removeAttr('disabled');
+                Init();
+            });
+
+            $('.btn-generate-pwd').click(function (e) {
+                e.preventDefault();
+                $('.txtPwd,.txtCPwd').val(generateStrongPassword(8));
+            });
+
+
+            $('#chNotification').change(function () {
+                //$(this).prop('disabled',true);
+                var val = $(this).is(':checked') ? 1 : 0;
+                var uid = $(this).attr('data-uid');
+                $.ajax({
+                    url: domainWithLang + 'admin/users/updatenotification',
+                    type: 'post',
+                    data: {
+                        'uid': uid,
+                        'val': val
+                    },
+                    beforeSend: function () {
+                        $(this).prop('disabled', true);
+                    },
+                    success: function (resp) {
+                        if (resp == 1) {
+                            toastr.success(__('Notification setting has been updated'));
+                        } else {
+                            toastr.error(resp);
+                        }
+                        $(this).prop('disabled', false);
+                    },
+                    error: function () {
+                        toastr.error(__('Got Error, please contact web admin'));
+                        $(this).prop('disabled', false);
+                    }
+                })
+            }); //end chNotification()
+
+            $('#chEidApproval').change(function () {
+                //$(this).prop('disabled',true);
+                var val = $(this).is(':checked') ? 1 : 0;
+                var uid = $(this).attr('data-uid');
+                $.ajax({
+                    url: domainWithLang + 'admin/users/userapproval',
+                    type: 'post',
+                    data: {
+                        'uid': uid,
+                        'val': val
+                    },
+                    beforeSend: function () {
+                        $(this).prop('disabled', true);
+                    },
+                    success: function (resp) {
+                        if (resp == 1) {
+                            toastr.success(__('Approval has been saved'));
+                        } else {
+                            toastr.error(resp);
+                        }
+                        $(this).prop('disabled', false);
+                    },
+                    error: function () {
+                        toastr.error(__('Got Error, please contact web admin'));
+                        $(this).prop('disabled', false);
+                    }
+                })
+            }); //end chEidApproval()
+
+
+
+
+
+            var ajxUpdtRoles = null;
+            $('body').on('click', '.btn-roles', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var user_id = $(this).data('uid');
+                var role_ids = [];
+                var checkCheckboxes = $('.chkRole:checked');
+
+                $.each(checkCheckboxes, function () {
+                    role_ids.push($(this).data('rid'));
+                });
+                console.log(role_ids);
+
+                ajxUpdtRoles = $.ajax({
+                    url: "@Url.Action("update_roles")/" + user_id,
+                    type: 'POST',
+                    data: JSON.stringify(role_ids),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function () {
+                        if (ajxUpdtRoles != null) {
+                            ajxUpdtRoles.abort();
+                        }
+                        btn.prop('disabled', true);
+                        btn.find('i').addClass('fa-spin fa-spinner').removeClass('fa-save');
+                    },
+                    complete: function () {
+                        btn.prop('disabled', false);
+                        btn.find('i').removeClass('fa-spin fa-spinner').addClass('fa-save');
+                    },
+                    success: function (resp) {
+                        if (resp == 1) {
+                            toastr.success("Roles updated successfully");
+                        } else {
+                            toastr.error(resp);
+                        }
+                    },
+                    error: function () {
+                        toastr.error("Ajax error please contact web admin");
+                    }
+                });
+            });
+
+            var ajxRestPwd = null;
+            $('body').on('click', '.btn-change-pwd', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var user_id = $(this).data('uid');
+                var passwords = [];
+                passwords.push($('#txt_password').val());
+                passwords.push($('#txt_confirm_password').val());
+                passwords.push($('#send_email').is(':checked') ? "1" : "0");
+
+                ajxRestPwd = $.ajax({
+                    url: "@Url.Action("reset_password")/" + user_id,
+                    type: 'POST',
+                    data: JSON.stringify(passwords),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function () {
+                        if (ajxRestPwd != null) {
+                            ajxRestPwd.abort();
+                        }
+                        btn.prop('disabled', true);
+                        btn.find('i').addClass('fa-spin fa-spinner').removeClass('fa-save');
+                    },
+                    complete: function () {
+                        btn.prop('disabled', false);
+                        btn.find('i').removeClass('fa-spin fa-spinner').addClass('fa-save');
+                    },
+                    success: function (resp) {
+                        if (resp == 1) {
+                            toastr.success("password changed successfully");
+                        } else {
+                            toastr.error(resp);
+                        }
+                    },
+                    error: function () {
+                        toastr.error("Ajax error please contact web admin");
+                    }
+                });
+            });
+        });
+
+        function generateStrongPassword(length) {
+            const lowerCase = 'abcdefghijlmnopqrstuvwyz';
+            const upperCase = 'ABCDEFGHIJLMNOPQRSTUVWYZ';
+            const numbers = '0123456789';
+            const specialChars = '!&()_+~|}{[];?><,.-=';
+
+            let password = '';
+
+            // add one uppercase letter
+            password += upperCase.charAt(Math.floor(Math.random() * upperCase.length));
+
+            // add one number
+            password += numbers.charAt(Math.floor(Math.random() * numbers.length));
+
+            // add one special character
+            password += specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+
+            // add remaining lowercase letters
+            for (let i = 0; i < length - 3; i++) {
+                password += lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
+            }
+
+            return password;
+        }
+    </script>
+}

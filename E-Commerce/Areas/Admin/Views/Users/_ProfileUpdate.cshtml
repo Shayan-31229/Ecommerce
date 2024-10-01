@@ -1,0 +1,136 @@
+﻿@using E_Commerce.Models.VMs
+
+@model E_Commerce.Models.VMs.VMUserWithRoles
+
+
+<form asp-action="update" class="formLoader frmUpdateUserInfo">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <input asp-for="User.Id" type="hidden" />
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.IsAdmin" class="control-label"></label>
+                <select asp-for="User.IsAdmin" class="form-control browser-default custom-select">
+                    <option value="0">Customer</option>
+                    <option value="1">Admin</option>
+                </select>
+                <span asp-validation-for="User.IsAdmin" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group reqired">
+                <label asp-for="User.Email" class="control-label"></label>
+                <input asp-for="User.Email" class="form-control" reqired />
+                <span asp-validation-for="User.Email" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.FullName" class="control-label"></label>
+                <input asp-for="User.FullName" class="form-control" />
+                <span asp-validation-for="User.FullName" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.address" class="control-label"></label>
+                <input asp-for="User.address" class="form-control" />
+                <span asp-validation-for="User.address" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.gender_id" class="control-label"></label>
+                <select asp-for="User.gender_id" class="form-control browser-default custom-select" asp-items="ViewBag.Genders"></select>
+                <span asp-validation-for="User.gender_id" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.nationality_id" class="control-label"></label>
+                <select asp-for="User.gender_id" class="form-control browser-default custom-select" asp-items="ViewBag.Nationalities"></select>
+                <span asp-validation-for="User.nationality_id" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+         
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.dob" class="control-label"></label>
+                <input type="text" asp-for="User.dob" class="form-control txtDate" />
+                <span asp-validation-for="User.dob" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+                <label asp-for="User.status" class="control-label"></label>
+                <select asp-for="User.status" class="form-control browser-default custom-select">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+                <span asp-validation-for="User.status" class="text-danger"></span>
+            </div>
+        </div><!--.col-->
+
+    </div>
+
+
+
+    <div class="row2 card-footer text-end">
+        <button id="updateUserSubmit" type="submit" class="btn btn-lg btn-primary btn-sm"><i class="fa fa-save"></i> Update</button>
+    </div>
+
+
+</form>
+
+<script>
+    $(function () {
+        var ajxUpdateUserInfo = null;
+        $('.frmUpdateUserInfo').submit(function (e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var formdata = $(this).serialize();
+            console.log(url);
+            console.log(formdata);
+            var btn = $(this).find('button[type="submit"]');
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: formdata,
+                beforeSend: function () {
+                    if (ajxUpdateUserInfo != null) {
+                        ajxUpdateUserInfo.abort();
+                    }
+                    btn.find('i').addClass('fa-spin fa-spinner').removeClass('fa-save');
+                    btn.prop('disabled', true);
+                },
+                success: function (resp) {
+                    btn.find('i').removeClass('fa-spin fa-spinner').addClass('fa-save');
+                    btn.prop('disabled', false);
+                    if (resp == "1") {
+                        toastr.success("User infomation updated successfully");
+                    } else {
+                        toastr.error(resp);
+                    }
+                },
+                error: function () {
+                    btn.find('i').removeClass('fa-spin fa-spinner').addClass('fa-save');
+                    btn.prop('disabled', false);
+                    toastr.error('Ajax error please contact web admin');
+                }
+            });
+        });
+    });
+</script>

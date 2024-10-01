@@ -1,0 +1,124 @@
+﻿@model E_Commerce.Models.VMs.VMUserWithRoles
+
+<h2>User Profile</h2>
+
+<div>
+    
+    <div class="row">
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>User type</strong>
+            <br>
+            <p class="text-muted">@Model.User.IsAdmin?"Admin":"Customer"</p>
+        </div>
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>Fullname</strong>
+            <br>
+            <p class="text-muted">@Model.User.FullName</p>
+        </div> 
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>Gender</strong>
+            <br>
+            <p class="text-muted">@Model.User.Gender?.title</p>
+        </div>
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>Nationality</strong>
+            <br>
+            <p class="text-muted">@Model.User.Nationality?.title</p>
+        </div>
+
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>Email</strong>
+            <br>
+            <p class="text-muted">@Model.User.Email</p>
+        </div>
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>Phone</strong>
+            <br>
+            <p class="text-muted">@Model.User.PhoneNumber</p>
+        </div>
+
+        <div class="col-md-4 col-xs-6 b-r">
+            <strong>DOB</strong>
+            <br>
+            <p class="text-muted">@Model.User.dob</p>
+        </div>
+
+        <div class="col-md-4 col-xs-6">
+            <strong>Account status</strong>
+            <br>
+            <p class="text-muted">@Model.User.LockoutEnabled</p>
+        </div>
+
+        <div class="roles-wrapper">
+            <div class="card mb-3">
+                <div class="card-header">Roles</div>
+                <div class="card-body">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <div class="switch green-base">
+                            <label>
+                                <input type="checkbox" name="@("role"+role.Id)" data-rid="@role.Name" class="chkRole" id="@("role"+role.Id)" @(Model.AssignedRoles.Contains(role.Name) ? "checked='checked'" : "")>
+                                <span class="lever"></span>
+                                @role.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-success btn-sm btn-roles" data-uid="@Model.User.Id"><i class="fa fa-save"></i> Update Roles</span>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+<script>
+    $(function () { 
+        var ajxUpdtRoles = null;
+        $('body').on('click', '.btn-roles', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var user_id = $(this).data('uid');
+            var role_ids = [];
+            var checkCheckboxes = $('.chkRole:checked');
+             
+            $.each(checkCheckboxes,function () {
+                role_ids.push($(this).data('rid'));
+            });
+            console.log(role_ids);
+            
+            ajxUpdtRoles = $.ajax({
+                url: "/users/update_roles/" + user_id,
+                type: 'POST',
+                data: JSON.stringify(role_ids),
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function () {
+                    if (ajxUpdtRoles != null) {
+                        ajxUpdtRoles.abort();
+                    }
+                    btn.prop('disabled', true);
+                    btn.find('i').addClass('fa-spin fa-spinner').removeClass('fa-save');
+                },
+                complete: function () {
+                    btn.prop('disabled', false);
+                    btn.find('i').removeClass('fa-spin fa-spinner').addClass('fa-save');
+                },
+                success: function (resp) {
+                    if (resp == 1) {
+                        toastr.success("Roles updated successfully");
+                    } else {
+                        toastr.error(resp);
+                    }
+                },
+                error: function () {
+                    toastr.error("Ajax error please contact web admin");
+                }
+            });
+        });
+    });
+</script>
+ 
