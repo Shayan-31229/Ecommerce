@@ -10,9 +10,10 @@ namespace E_Commerce.Models
         [StringLength(255)]
         public string title { get; set; }
 
-        public string code { get; set; }
+      public string bgcolor { get; set; }
+      public string textcolor { get; set; }
 
-        public int sort { get; set; }
+      public int sort { get; set; }
 
         public int status { get; set; }
 

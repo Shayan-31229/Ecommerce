@@ -49,10 +49,10 @@ namespace E_Commerce.Data
                 );
 
             modelBuilder.Entity<Color>().HasData(
-                    new Color { id = 1, title = "Red", code = "#ff0000", sort = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Color { id = 2, title = "Black", code = "#000000", sort = 2, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Color { id = 3, title = "Blue", code = "#0000ff", sort = 3, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Color { id = 4, title = "Yellow", code = "#ffeb3b", sort = 4, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") }
+                    new Color { id = 1, title = "Red", bgcolor = "#ff0000", textcolor = "#ffffff", sort = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
+                    new Color { id = 2, title = "Black", bgcolor = "#000000",textcolor = "#ffffff", sort = 2, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
+                    new Color { id = 3, title = "Blue", bgcolor = "#0000ff",textcolor = "#ffffff", sort = 3, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
+                    new Color { id = 4, title = "Yellow", bgcolor = "#ffeb3b",textcolor = "#000000", sort = 4, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") }
                 );
 
             modelBuilder.Entity<Category>().HasData(
@@ -84,12 +84,12 @@ namespace E_Commerce.Data
                 );
 
             modelBuilder.Entity<Item>().HasData(
-                    new Item { id = 1, end_category_id = 1, title = "Rolex T20", sort = 1, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "1.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Item { id = 2, end_category_id = 1, title = "Apple Smart watch i16 pro max", sort = 2, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "2.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Item { id = 3, end_category_id = 2, title = "Bannu warai cloths w99", sort = 3, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "3.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Item { id = 4, end_category_id = 3, title = "Lahori Chappal", sort = 1, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "1.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Item { id = 5, end_category_id = 4, title = "Batta Sports T35", sort = 2, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "2.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") },
-                    new Item { id = 6, end_category_id = 4, title = "Service plain shoes", sort = 3, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "3.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b") }
+                    new Item { id = 1, end_category_id = 1, title = "Rolex T20", sort = 1, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "1.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 },
+                    new Item { id = 2, end_category_id = 1, title = "Apple Smart watch i16 pro max", sort = 2, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "2.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 },
+                    new Item { id = 3, end_category_id = 2, title = "Bannu warai cloths w99", sort = 3, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "3.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 },
+                    new Item { id = 4, end_category_id = 3, title = "Lahori Chappal", sort = 1, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "1.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 },
+                    new Item { id = 5, end_category_id = 4, title = "Batta Sports T35", sort = 2, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "2.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 },
+                    new Item { id = 6, end_category_id = 4, title = "Service plain shoes", sort = 3, barcode = "123456789", old_price = 177, price = 99, qty = 123, featured_pic = "3.jpg", is_featured = 1, status = 1, created = DateTime.Parse("2024-09-29 19:45:33"), created_by = Guid.Parse("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),hits=1 }
                 );
              
 

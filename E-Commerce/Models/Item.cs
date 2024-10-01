@@ -22,11 +22,11 @@ namespace E_Commerce.Models
 
         [StringLength(255)]
         public string featured_pic { get; set; }
-        public string description { get; set; }
+        public string? description { get; set; }
          
-        public string short_description { get; set; }
-        public string features { get; set; }
-        public string terms_conditions { get; set; }
+        public string? short_description { get; set; }
+        public string? features { get; set; }
+        public string? terms_conditions { get; set; }
 
         public int hits { get; set; }
         [Required]
@@ -34,7 +34,7 @@ namespace E_Commerce.Models
         public int sort { get; set; }
 
         public int status { get; set; }
-        public string remarks { get; set; }
+        public string? remarks { get; set; }
 
         public DateTime created { get; set; }
 
