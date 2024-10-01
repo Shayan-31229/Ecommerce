@@ -1,81 +1,78 @@
 ﻿<!-- Sidebar navigation  -->
 <div id="slide-out" class="side-nav sn-bg-4 fixed" data-mdb-slim="true" data-mdb-slim-collapsed="true" data-mdb-content="#slim-content">
-    <ul class="custom-scrollbar">
+  <ul class="custom-scrollbar">
 
-        <!-- Logo -->
+    <!-- Logo -->
+    <li>
+      <div class="logo-wrapper waves-light text-center" style="height: 200px;">
+        <a href="#" class="">
+          <div class="rounded-circle d-inline-block bg-white mt-3 text-center" style="width: 170px;padding: 10px;box-shadow: 2px 2px 4px #CCC inset, -2px -2px 4px #CCC inset, 2px -2px 4px #CCC inset, -2px 2px 4px #ccc inset;">
+            <img class='img-fluid wow tada' src="~/img/logo.png" style='height:150px;padding:15px;'>
+          </div>
+        </a>
+      </div>
+
+    </li>
+    <!--/. Logo -->
+    <li class="logo-sn waves-effect py-1 border-bottom1" style="border-bottom: 1px solid rgba(153, 153, 153, 0.3);">
+
+
+      <a asp-controller="Home" asp-action="Index" asp-area="Admin" class="">
+        <span class="align-middle text-white text-darken-1 application-main-title">Admin Section</span>
+      </a>
+    </li>
+
+
+    <!-- Side navigation links  -->
+    <li>
+      <ul class="collapsible collapsible-accordion">
+
+
+
         <li>
-            <div class="logo-wrapper waves-light text-center" style="height: 200px;">
-                <a href="#" class="">
-                    <div class="rounded-circle d-inline-block bg-white mt-3 text-center" style="width: 170px;padding: 10px;box-shadow: 2px 2px 4px #CCC inset, -2px -2px 4px #CCC inset, 2px -2px 4px #CCC inset, -2px 2px 4px #ccc inset;">
-                        <img class='img-fluid wow tada' src="~/img/logo.png" style='height:150px;padding:15px;'>
-                    </div> 
-                </a> 
-            </div>
-
-        </li>
-        <!--/. Logo -->
-        <li class="logo-sn waves-effect py-1 border-bottom1" style="border-bottom: 1px solid rgba(153, 153, 153, 0.3);">
-
-
-            <a href="/" class=""> 
-                <span class="align-middle text-white text-darken-1 application-main-title">App</span>
-            </a>
+          <a asp-controller="Home" asp-action="Index" asp-area="Admin" class="collapsible-header waves-effect"><i class="fa fa-dashboard"></i> Dashboard</a>
         </li>
 
 
-        <!-- Side navigation links  -->
+        <li class="sidenav-item pt-3">
+          <span class="separator">&nbsp;</span>
+        </li>
+
+         
+        <li> <a asp-controller="Items" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-box"></i> Items</a> </li>
+
+
+
         <li>
-            <ul class="collapsible collapsible-accordion">
-
-
-
-                <li>
-                    <a asp-controller="Home" asp-action="Index" asp-area="" class="collapsible-header waves-effect"><i class="fa fa-dashboard"></i> Dashboard</a>
-                </li>
-                 
-                 
-                <li class="sidenav-item pt-3">
-                    <span class="separator">&nbsp;</span>
-                </li>
-
-                 
-
-                <li>
-                    <a asp-controller="Users" asp-action="profile" class="collapsible-header waves-effect"><i class="fa fa-bullhorn"></i> Profile</a>
-                </li>
-
-                <li class="sidenav-item pt-3">
-                    <span class="separator">&nbsp;</span>
-                </li>
-
-
-                <li> <a asp-controller="Users" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-user"></i> Users</a> </li>
-                <li> <a asp-controller="Genders" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-home"></i> Gender</a> </li>
-                <li> <a asp-controller="Gates" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-home"></i> Gates</a> </li>
-                <li> <a asp-controller="Nationalities" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-flag"></i> Nationalities</a> </li>
-                <li>
-                    <a asp-controller="Packages" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-shield"></i> Packages</a>
-                </li>
-                <li>
-                    <a asp-controller="Memberships" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-building"></i> Memberships</a>
-                </li>
-                <li>
-                    <a asp-controller="Attendances" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-sitemap"></i> Attendance</a>
-                </li>
-
-                <li>
-                    <a asp-controller="Promos" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-tag"></i> Promos</a>
-                </li>
-
-                <li class="sidenav-item pt-3">
-                    <span class="separator">&nbsp;</span>
-                </li>
-
+          <a class="collapsible-header waves-effect arrow-r"><i class="fa-solid fa-sitemap"></i> Categories <i class="fas fa-angle-down rotate-icon"></i></a>
+          <div class="collapsible-body">
+            <ul class="list-unstyled">
+              <li><a asp-controller="Categories" asp-action="Index" class="collapsible-header waves-effectt"> Categories</a></li>
+              <li><a asp-controller="SubCategories" asp-action="Index" class="collapsible-header waves-effectt"> Sub Categories</a></li>
+              <li><a asp-controller="EndCategories" asp-action="Index" class="collapsible-header waves-effectt"> End Categories</a></li>
             </ul>
+          </div>
         </li>
-        <!-- Side navigation links  -->
 
-    </ul>
-    <div class="sidenav-bg mask-strong"></div>
+        <li>
+          <a class="collapsible-header waves-effect arrow-r"><i class="fa-solid fa-cog"></i> Masters <i class="fas fa-angle-down rotate-icon"></i></a>
+          <div class="collapsible-body">
+            <ul class="list-unstyled">
+              <li><a asp-controller="Genders" asp-action="Index" class="collapsible-header waves-effectt"> Genders</a></li>
+              <li><a asp-controller="Nationalities" asp-action="Index" class="collapsible-header waves-effectt"> Nationalities</a></li>
+              <li><a asp-controller="Colors" asp-action="Index" class="collapsible-header waves-effectt"> Colors</a></li>
+              <li><a asp-controller="Sizes" asp-action="Index" class="collapsible-header waves-effectt"> Sizes</a></li>
+            </ul>
+          </div>
+        </li>
+        <li> <a asp-controller="Users" asp-action="Index" class="collapsible-header waves-effect"><i class="fa fa-user"></i> Users</a> </li>
+ 
+
+      </ul>
+    </li>
+    <!-- Side navigation links  -->
+
+  </ul>
+  <div class="sidenav-bg mask-strong"></div>
 </div>
 <!-- Sidebar navigation  -->
