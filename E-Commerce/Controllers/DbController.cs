@@ -1,6 +1,9 @@
 ﻿using E_Commerce.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient; 
+using Microsoft.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace E_Commerce.Controllers
@@ -65,6 +68,62 @@ namespace E_Commerce.Controllers
             }
         }
 
+        /*
+            To run dotnet ef [command], we need globalliy install dotnet-ef using below command
+            dotnet tool install --global dotnet-ef
+            after this we can update database using
 
+            dotnet ef datatabase update
+            
+         */
+        public async Task<IActionResult> UpdateDB()
+        {
+            string referrer = Request.Headers["Referer"].ToString();
+            string redirectTo = string.IsNullOrEmpty(referrer) ? "/" : referrer;
+            try
+            {
+                // Get the current assembly's location
+                string assemblyPath = Assembly.GetExecutingAssembly().Location;
+
+                // Get the project directory by navigating up to the parent directory
+                string projectDirectory = Path.GetDirectoryName(assemblyPath);
+
+                // Get the path to the .csproj file
+                string projectFilePath = Path.GetFullPath(Path.Combine(projectDirectory, @"..\..\..\"));
+
+                // Create a ProcessStartInfo object with the desired command and arguments
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = "dotnet",
+                    Arguments = $"ef database update",
+                    WorkingDirectory = Path.GetDirectoryName(projectFilePath)
+                };
+
+                // Start the process
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                // Wait for the process to complete
+                await process.WaitForExitAsync();
+
+                // Check the exit code to determine if the update was successful
+                if (process.ExitCode != 0)
+                { 
+                    this.Flash("Error: Database update failed.", "danger");
+                    return Redirect(redirectTo);
+                }
+                else
+                { 
+                    this.Flash("Database updated successfully.", "success");
+                    return Redirect(redirectTo);
+                }
+            }
+            catch (Exception ex)
+            { 
+                this.Flash(ex.Message, "danger");
+                return Redirect(redirectTo);
+            }
+        }
     }
 }

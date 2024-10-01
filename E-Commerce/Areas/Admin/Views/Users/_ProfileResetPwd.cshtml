@@ -1,0 +1,30 @@
+﻿@model string
+<div class="pwd-wrapper">
+    <div class="mx-auto" style="max-width:400px;">
+        <div class="form-group">
+            <label for="txt_password" class="control-label">Password</label>
+            <input name="password" id="txt_password" class="form-control" type="password" />
+        </div>
+        <div class="form-group">
+            <label for="txt_confirm_password" class="control-label">Conform password</label>
+            <input name="txt_confirm_password" id="txt_confirm_password" class="form-control" type="password" />
+        </div>
+        <div class="form-group">
+            <label for="sendEmail">Send Email</label>
+            <div class="switch green-base">
+                <label>
+                    No
+                    <input type="checkbox" name="send_email" id="send_email" />
+                    <span class="lever"></span> Yes
+                </label>
+            </div>
+        </div>
+        <div>
+            <input type="hidden" name="id" value="@Model" />
+        </div>
+    </div>
+    <div class="row2 card-footer text-right mt-4">
+        <span class="btn btn-success btn-sm btn-change-pwd" data-uid="@Model"><i class="fa fa-save"></i> Change password</span>
+    </div>
+
+</div>

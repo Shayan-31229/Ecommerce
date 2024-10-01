@@ -1,45 +1,158 @@
 ﻿using E_Commerce.Data;
-using E_Commerce.Models;
 using E_Commerce.Models.VMs;
-using E_Commerce.Repository.Interfaces;
 using E_Commerce.Repository.Interfaces; 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
-using System.Runtime.CompilerServices;
-using System.Text.Encodings.Web;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using System.Drawing;
 
-namespace E_Commerce.Controllers
+namespace Identity5.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IRecordCountService _recordCountService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IMailService Mail_Service = null;
+        private readonly IMailService Mail_Service = null; 
 
 
-        public UsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMailService _MailService)
+        public UsersController(ApplicationDbContext context, IRecordCountService recordCountService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMailService _MailService)
         {
             _context = context;
+            _recordCountService = recordCountService;
             _userManager = userManager;
             _roleManager = roleManager;
-            _roleManager = roleManager;
-            Mail_Service = _MailService;
-
+            Mail_Service = _MailService; 
         }
 
-        [Route("{culture:length(2)}/Users/profile/{id?}/{tab?}")]
-        public async Task<IActionResult> ProfileAsync(Guid? id, string? tab)
+
+
+        // GET: Admin/Memberships
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+
+        // GET: Admin/Memberships
+        public async Task<IActionResult> getdata()
+        {
+            var queryString = Request.QueryString.ToString();
+            IDictionary<string, StringValues> qs = QueryHelpers.ParseQuery(queryString);
+            var entityType = _context.Model.FindEntityType(typeof(ApplicationUser));
+            //var entityType = typeof(DTMembership);
+            var cols = entityType.GetProperties().Select(p => p.Name).ToArray();
+
+
+            string qry = "select * from " + entityType.GetTableName() + " where 1=1 ";
+
+            string mainConds = "";
+
+            //ordering
+            string orderBy = "";
+            if (qs.ContainsKey("iSortingCols") && !string.IsNullOrEmpty(qs["iSortingCols"]))
+            {
+                var numOfSortCols = Convert.ToInt32(qs["iSortingCols"]);
+                List<string> dtOrders = new List<string>();
+                for (int i = 0; i < numOfSortCols; i++)
+                {
+                    dtOrders.Add(qs["mDataProp_" + Convert.ToInt32(qs["iSortCol_" + i])] + " " + qs["sSortDir_" + i]);
+                }
+                if (dtOrders.Count > 0)
+                {
+                    orderBy = " ORDER BY " + string.Join(",", dtOrders);
+                }
+            }
+
+            //main filter
+
+            List<string> filterCondsList = new List<string>();
+            if (qs.ContainsKey("sSearch") && !string.IsNullOrEmpty(qs["sSearch"]))
+            {
+                var searchTerm = qs["sSearch"];
+                foreach (var col in cols)
+                {
+                    string thisCond = " " + col + " LIKE '%" + searchTerm + "%'";
+                    filterCondsList.Add(thisCond);
+                }
+            }
+            string filterConds = "";
+            if (filterCondsList.Count > 0)
+            {
+                filterConds = "(" + string.Join(" OR ", filterCondsList) + ")";
+            }
+
+
+            //column level filtering
+            string colConds = "";
+            int qsColumns = Convert.ToInt32(qs["iColumns"]);
+            for (int i = 0; i < qsColumns; i++)
+            {
+                var searchableKey = "bSearchable_" + i;
+                var cSearchTermIndx = "sSearch_" + i;
+
+                if (qs.ContainsKey(searchableKey) && qs[searchableKey] == "true" && qs.ContainsKey(cSearchTermIndx) && !string.IsNullOrEmpty(qs[cSearchTermIndx]))
+                {
+                    colConds += " AND " + qs["mDataProp_" + i] + " LIKE '%" + qs[cSearchTermIndx] + "%'";
+                }
+            }
+            if (colConds != "")
+            {
+                colConds = colConds.Substring(4);
+            }
+
+
+            //prepare execute sql query
+            string sqlQry = qry + mainConds;
+            //int totalRecords = await getTototalRecordsAsync(sqlQry);
+            int totalRecords = await _recordCountService.GetTotalRecordsAsync(sqlQry);
+
+            if (!string.IsNullOrEmpty(filterConds))
+            {
+                sqlQry += " AND " + filterConds;
+            }
+
+            if (!string.IsNullOrEmpty(colConds))
+            {
+                sqlQry += " AND " + colConds;
+            }
+            int recordsFiltered = await _recordCountService.GetTotalRecordsAsync(sqlQry);
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                sqlQry += orderBy;
+            }
+
+            int displaySkip = Convert.ToInt32(qs["iDisplayStart"]);
+            int displayLength = Convert.ToInt32(qs["iDisplayLength"]);
+
+            sqlQry += " OFFSET " + displaySkip + " ROWS FETCH NEXT " + displayLength + " ROWS ONLY";
+
+            var gates = _context.Database.SqlQueryRaw<DTUser>(sqlQry).ToList();
+
+            DataTableResponse<DTUser> response = new DataTableResponse<DTUser>();
+            response.draw = qs["sEcho"];
+            response.recordsTotal = totalRecords;
+            response.recordsFiltered = recordsFiltered;
+            response.data = gates;
+
+            var json = JsonConvert.SerializeObject(response);
+
+            return Content(json, "application/json");
+        }
+
+        [Route("[area]/Users/profile/{id?}/{tab?}")]
+        public async Task<IActionResult> ProfileAsync(string? id, string? tab)
         {
             ApplicationUser? user;
 
 
-            if (!id.HasValue)
+            if (id != null)
             {
                 user = await _userManager.GetUserAsync(User);
                 if (user != null)
@@ -59,7 +172,7 @@ namespace E_Commerce.Controllers
                     .Include(g => g.Gender)
                     .Include(n => n.Nationality)
                     .Include(l => l.loginLogs.OrderByDescending(u => u.id).Take(50))
-                    .FirstOrDefaultAsync(u => u.Id == id.ToString());
+                    .FirstOrDefaultAsync(u => u.Id == id);
             }
 
             if (user == null)
@@ -71,22 +184,29 @@ namespace E_Commerce.Controllers
             IList<string> assignedRoles = await _userManager.GetRolesAsync(user);
             var roles = await _roleManager.Roles.ToListAsync();
 
+            
+
+            VMUserWithRoles userWithRoles = new VMUserWithRoles()
+            {
+                User = user,
+                Roles = roles,
+                AssignedRoles = assignedRoles
+            };
 
 
-            VMUserWithRoles userWithRoles = new VMUserWithRoles() { User = user, Roles = roles, AssignedRoles = assignedRoles };
-
-
-            ViewBag.Genders = _context.Genders.Select(g => new SelectListItem
+            ViewBag.Genders = _context.Genders.Where(e => e.status == 1).Select(g => new SelectListItem
             {
                 Value = g.id.ToString(),
                 Text = g.title
             }).ToList();
 
-            ViewBag.Nationalities = _context.Nationalities.Select(g => new SelectListItem
+            ViewBag.Nationalities = _context.Nationalities.Where(e => e.status == 1).Select(g => new SelectListItem
             {
                 Value = g.id.ToString(),
                 Text = g.title
             }).ToList();
+             
+             
 
             return View(userWithRoles);
         }
@@ -107,7 +227,7 @@ namespace E_Commerce.Controllers
                 dbUser.FullName = user.FullName;
                 dbUser.address = user.address;
                 dbUser.gender_id = user.gender_id;
-                dbUser.nationality_id = user.nationality_id;
+                dbUser.nationality_id = user.nationality_id; 
                 dbUser.dob = user.dob;
                 // _context.Update(dbUser);
                 IdentityResult result = await _userManager.UpdateAsync(dbUser);
@@ -125,47 +245,10 @@ namespace E_Commerce.Controllers
             }
         }
 
-        public async Task<IActionResult> IndexAsync(int? id)
-        {
-            ApplicationUser? user;
 
-
-            if (!id.HasValue)
-            {
-                user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                    user = await _context.ApplicationUsers
-                        .Include(g => g.Gender)
-                        .Include(n => n.Nationality)
-                        .FirstOrDefaultAsync(u => u.Id == user.Id);
-
-
-                }
-            }
-            else
-            {
-                user = await _context.ApplicationUsers
-                    .Include(g => g.Gender)
-                    .Include(n => n.Nationality)
-                    .FirstOrDefaultAsync(u => u.Id == id.ToString());
-            }
-
-            if (user == null)
-            {
-                return NotFound($"Unable to load user");
-            }
-
-
-            IList<string> assignedRoles = await _userManager.GetRolesAsync(user);
-            var roles = await _roleManager.Roles.ToListAsync();
-            VMUserWithRoles userWithRoles = new VMUserWithRoles() { User = user, Roles = roles, AssignedRoles = assignedRoles };
-
-            return View(userWithRoles);
-        }
 
         [HttpPost]
-        [Route("{culture:length(2)}/users/reset_password/{userId}")]
+        [Route("[area]/users/reset_password/{userId}")]
         public async Task<IActionResult> resetPassword(int userId, [FromBody] List<string> passwords)
         {
             try
@@ -241,7 +324,7 @@ namespace E_Commerce.Controllers
         }
 
         [HttpPost]
-        [Route("{culture:length(2)}/users/update_roles/{userId}")]
+        [Route("[area]/users/update_roles/{userId}")]
         public async Task<IActionResult> UpdateRoles(int userId, [FromBody] List<string> rolesToAssign)
         {
             if (userId <= 0)
@@ -288,5 +371,6 @@ namespace E_Commerce.Controllers
                 return StatusCode(500, ex.Message); // Internal server error with message
             }
         }
+         
     }
 }

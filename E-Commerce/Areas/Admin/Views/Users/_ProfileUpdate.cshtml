@@ -3,13 +3,13 @@
 @model E_Commerce.Models.VMs.VMUserWithRoles
 
 
-<form asp-action="update" class="formLoader frmUpdateUserInfo">
+<form asp-action="update" class="frmUpdateUserInfo">
 
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <input asp-for="User.Id" type="hidden" />
     <div class="row">
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.IsAdmin" class="control-label"></label>
                 <select asp-for="User.IsAdmin" class="form-control browser-default custom-select">
@@ -20,7 +20,7 @@
             </div>
         </div><!--.col-->
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group reqired">
                 <label asp-for="User.Email" class="control-label"></label>
                 <input asp-for="User.Email" class="form-control" reqired />
@@ -29,7 +29,7 @@
         </div><!--.col-->
 
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.FullName" class="control-label"></label>
                 <input asp-for="User.FullName" class="form-control" />
@@ -38,7 +38,7 @@
         </div><!--.col-->
 
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.address" class="control-label"></label>
                 <input asp-for="User.address" class="form-control" />
@@ -46,7 +46,7 @@
             </div>
         </div><!--.col-->
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.gender_id" class="control-label"></label>
                 <select asp-for="User.gender_id" class="form-control browser-default custom-select" asp-items="ViewBag.Genders"></select>
@@ -54,16 +54,17 @@
             </div>
         </div><!--.col-->
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.nationality_id" class="control-label"></label>
-                <select asp-for="User.gender_id" class="form-control browser-default custom-select" asp-items="ViewBag.Nationalities"></select>
+                <select asp-for="User.nationality_id" class="form-control browser-default custom-select" asp-items="ViewBag.Nationalities"></select>
                 <span asp-validation-for="User.nationality_id" class="text-danger"></span>
             </div>
         </div><!--.col-->
+
          
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.dob" class="control-label"></label>
                 <input type="text" asp-for="User.dob" class="form-control txtDate" />
@@ -73,7 +74,7 @@
 
 
 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
             <div class="form-group">
                 <label asp-for="User.status" class="control-label"></label>
                 <select asp-for="User.status" class="form-control browser-default custom-select">
@@ -100,11 +101,11 @@
         var ajxUpdateUserInfo = null;
         $('.frmUpdateUserInfo').submit(function (e) {
             e.preventDefault();
-            var url = $(this).attr('action');
-            var formdata = $(this).serialize();
-            console.log(url);
-            console.log(formdata);
-            var btn = $(this).find('button[type="submit"]');
+            var frm = $(this);
+            var url = frm.attr('action');
+            var formdata = frm.serialize(); 
+            var btn = frm.find('button[type="submit"]'); 
+
             $.ajax({
                 url: url,
                 type: 'post',

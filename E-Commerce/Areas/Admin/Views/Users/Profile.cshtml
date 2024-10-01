@@ -73,7 +73,7 @@
 </div>
 
 @{
-    var td = (Context.GetRouteValue("tab") ?? "membership").ToString();
+    var td = (Context.GetRouteValue("tab") ?? "update").ToString();
 }
 
 <div class="row">
@@ -87,10 +87,8 @@
             <!-- Avatar -->
             <div class="avatar mx-auto white">
 
-                <div class="imgWrap">
-
-
-                    @{
+                <div class="imgWrap"> 
+                    @{ 
                         var imgsrc = "/img/no-img.png";
                     }
                     <img src="@imgsrc" />
@@ -102,19 +100,18 @@
             <div class="card-body position-relative">
 
                 <div class=" w-100 text-center" style="position:absolute;top:-50px;">
-                    <span class="btn btn-sm btn-info" id="uploadimage" style="margin-<?php echo $_lang=='en'?'left':'right'; ?>:155px;" title="<?php echo __('Change image') ?>"><i class="fa fa-camera"></i></span>
+                    <span class="btn btn-sm btn-info" id="uploadimage" style="margin-right:155px;" title="<?php echo __('Change image') ?>"><i class="fa fa-camera"></i></span>
                 </div>
 
                 <!-- Name -->
-                <img class="imgBarcode border p-1 img-fluid border-danger bg-danger1" alt="member-barcode" id="barcode" src="/en/barcode/@Uri.EscapeDataString(Model.User.FullName.ToString())">
-                <hr>
+                 
                 <!-- Quotation -->
                 <div class="row">
                     <div class="table-responsive">
                         <table class="table table-striped table-condensed">
                             <tbody>
-                                <tr><td class="text-left py-1">Membership ID</td> <td class="text-left py-1">@Model.User.Id</td></tr>
-                                <tr><td class="text-left py-1">Name</td> <td class="text-left py-1">@Model.User.FullName</td></tr>
+                                <tr><td class="text-left py-1">User ID</td> <td class="text-left py-1">@Model.User.Id</td></tr> 
+                                <tr><td class="text-left py-1">Name</td> <td class="text-left py-1">@Model.User.FullName</td></tr> 
                                 <tr><td class="text-left py-1">Nationality</td> <td class="text-left py-1">@Model.User?.Nationality?.title</td></tr>
                                 <tr><td class="text-left py-1">DOB</td> <td class="text-left py-1">@Model.User.dob</td></tr>
                                 <tr><td class="text-left py-1">Gender</td> <td class="text-left py-1">@Model.User.gender_id</td></tr>
@@ -136,9 +133,7 @@
     <div class="col-md-8 col-sm-12">
         <div class="mb-3">
             <ul class="nav nav-tabs md-tabs aqua-gradient" id="myTabMD" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link @(td=="profile"?"active":"")" id="profile-tab-md" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><i class="fa fa-id-card"></i> <span class="d-none d-sm-inline-block">Profile</span></a>
-                </li>
+                 
                 <li class="nav-item">
                     <a class="nav-link @(td=="logins"?"active":"")" id="logins-tab-md" data-toggle="tab" href="#logins" role="tab" aria-controls="logins" aria-selected="false"><i class="fa fa-skating"></i> <span class="d-none d-sm-inline-block">Logins</span></a>
                 </li>
@@ -146,6 +141,8 @@
                 <li class="nav-item">
                     <a class="nav-link @(td=="update"?"active":"")" id="update-tab-md" data-toggle="tab" href="#update" role="tab" aria-controls="update" aria-selected="false"><i class="fa fa-edit"></i> <span class="d-none d-sm-inline-block">Update</span></a>
                 </li>
+
+                 
                 <li class="nav-item">
                     <a class="nav-link @(td=="password"?"active":"")" id="password-tab-md" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-key"></i> <span class="d-none d-sm-inline-block">Password</span></a>
                 </li>
@@ -156,26 +153,7 @@
             </ul>
             <div class="tab-content card pt-5 pb-0" id="myTabContentMD">
 
-                <div class="tab-pane fade @(td=="profile"?"show active":"")" id="profile" role="tabpanel" aria-labelledby="profile-tab-md">
-
-                    <div class="table-responsive">
-                        <table class="table mdt table-striped table-hover" cellpadding="0" cellspacing="0">
-                            <thead class="aqua-gradient text-white">
-                                <tr>
-                                    <th>Card-SNo</th>
-                                    <th>barcode</th>
-                                    <th>package</th>
-                                    <th>amount</th>
-                                    <th>payment_method</th>
-                                    <th>start_date</th>
-                                    <th>end_date</th>
-                                    <th>status</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-
-                </div><!--end tab-pane-->
+                 
 
                 <div class="tab-pane fade @(td=="logins"?"show active":"")" id="logins" role="tabpanel" aria-labelledby="logins-tab-md">
                     <partial name="_ProfileLoginlogs" model="Model" />
@@ -185,36 +163,11 @@
                     <partial name="_ProfileUpdate" model="Model" /> 
 
                 </div><!--end tab-pane-->
+               
                 <div class="tab-pane fade @(td=="password"?"show active":"")" id="password" role="tabpanel" aria-labelledby="password-tab-md">
-                    <div class="pwd-wrapper">
-                        <div class="mx-auto" style="max-width:400px;">
-                            <div class="form-group">
-                                <label for="txt_password" class="control-label">Password</label>
-                                <input name="password" id="txt_password" class="form-control" type="password" />
-                            </div>
-                            <div class="form-group">
-                                <label for="txt_confirm_password" class="control-label">Conform password</label>
-                                <input name="txt_confirm_password" id="txt_confirm_password" class="form-control" type="password" />
-                            </div>
-                            <div class="form-group">
-                                <label for="sendEmail">Send Email</label>
-                                <div class="switch green-base">
-                                    <label>
-                                        No
-                                        <input type="checkbox" name="send_email" id="send_email" />
-                                        <span class="lever"></span> Yes
-                                    </label>
-                                </div>
-                            </div>
-                            <div>
-                                <input type="hidden" name="id" value="@Model.User.Id" />
-                            </div>
-                        </div>
-                        <div class="row2 card-footer text-right mt-4">
-                            <span class="btn btn-success btn-sm btn-change-pwd" data-uid="@Model.User.Id"><i class="fa fa-save"></i> Change password</span>
-                        </div>
 
-                    </div>
+                    <partial name="_ProfileResetPwd" model="Model.User.Id" />
+
                 </div><!--end tab-pane-->
                 <div class="tab-pane fade @(td=="roles"?"show active":"")" id="roles" role="tabpanel" aria-labelledby="roles-tab-md">
                     <div class="roles-wrapper">
@@ -316,6 +269,7 @@
     <script type="text/javascript" src="~/js/buttons.print.min.js"></script>
     <script type="text/javascript" src="~/js/buttons.colVis.min.js"></script>
     <script type="text/javascript" src="~/js/bootstrap-datepicker.min.js"></script>
+     
 
     <script>
         $(function () {
@@ -526,4 +480,5 @@
             return password;
         }
     </script>
+    <script type="text/javascript" src="~/js/sdt2.js"></script>
 }
