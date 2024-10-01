@@ -152,7 +152,7 @@ namespace Identity5.Areas.Admin.Controllers
             ApplicationUser? user;
 
 
-            if (id != null)
+            if (id == null)
             {
                 user = await _userManager.GetUserAsync(User);
                 if (user != null)

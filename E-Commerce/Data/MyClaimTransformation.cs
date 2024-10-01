@@ -33,11 +33,11 @@ public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationU
                 .FirstAsync();
 
         //get assigned roles to  current user from DB and make claims
-        ////var roles = await _userManager.GetRolesAsync(user);
-        ////foreach (var role in roles)
-        ////{
-        ////    identity.AddClaim(new Claim(ClaimTypes.Role, role));
-        ////}
+        var roles = await _userManager.GetRolesAsync(user);
+        foreach (var role in roles)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+        }
 
         identity.AddClaim(new Claim("UserID", user.Id.ToString()));
         identity.AddClaim(new Claim("FullName", user.FullName ?? ""));

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace E_Commerce.Data.Migrations
+namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241001072814_Loginlogs")]
-    partial class Loginlogs
+    [Migration("20241001105635_mixedThings")]
+    partial class mixedThings
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,7 +146,7 @@ namespace E_Commerce.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "66feb4e1-2f1a-42e1-b5dc-7a12775b4d61",
+                            Id = "9055afc0-351b-4dcd-80cf-11b1fb0a729b",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "6ab77101-b4bc-4dc9-9986-cc508e30d30d",
                             Email = "alamnaryab@gmail.com",
@@ -155,7 +155,7 @@ namespace E_Commerce.Data.Migrations
                             IsAdmin = true,
                             IsLocked = false,
                             LockoutEnabled = false,
-                            MemberSince = new DateTime(2024, 10, 1, 11, 28, 13, 56, DateTimeKind.Local).AddTicks(1704),
+                            MemberSince = new DateTime(2024, 10, 1, 14, 56, 34, 546, DateTimeKind.Local).AddTicks(7381),
                             NormalizedEmail = "ALAMNARYAB@GMAIL.COM",
                             NormalizedUserName = "ALAMNARYAB@GMAIL.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEAgwzx5s+AhmTjSDN9xXrHZDKNl8YG8xao+5jUGw9tyTc+hDJX/R73bgdgTtRpEqng==",
@@ -184,7 +184,7 @@ namespace E_Commerce.Data.Migrations
                             IsAdmin = false,
                             IsLocked = false,
                             LockoutEnabled = false,
-                            MemberSince = new DateTime(2024, 10, 1, 11, 28, 13, 56, DateTimeKind.Local).AddTicks(1774),
+                            MemberSince = new DateTime(2024, 10, 1, 14, 56, 34, 546, DateTimeKind.Local).AddTicks(7440),
                             NormalizedEmail = "ALAMADCS@GMAIL.COM",
                             NormalizedUserName = "ALAMADCS@GMAIL.COM",
                             PasswordHash = "AQAAAAIAAYagAAAAEAgwzx5s+AhmTjSDN9xXrHZDKNl8YG8xao+5jUGw9tyTc+hDJX/R73bgdgTtRpEqng==",
@@ -244,7 +244,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 1,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 1,
                             status = 1,
                             title = "Male"
@@ -253,7 +253,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 2,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "Female"
@@ -338,7 +338,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 1,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 1,
                             status = 1,
                             title = "UAE"
@@ -347,7 +347,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 2,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "PAK"
@@ -400,7 +400,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 1,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 1,
                             status = 1,
                             title = "app_name",
@@ -410,7 +410,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 2,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "logo",
@@ -420,7 +420,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 3,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "currency",
@@ -430,7 +430,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 4,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "contact_number",
@@ -440,7 +440,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 5,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "contact_email",
@@ -450,7 +450,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 6,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "max_upload_size_in_mbs",
@@ -460,7 +460,7 @@ namespace E_Commerce.Data.Migrations
                         {
                             id = 7,
                             created = new DateTime(2024, 9, 29, 19, 45, 33, 0, DateTimeKind.Unspecified),
-                            created_by = new Guid("00000000-0000-0000-0000-000000000001"),
+                            created_by = new Guid("9055afc0-351b-4dcd-80cf-11b1fb0a729b"),
                             sort = 2,
                             status = 1,
                             title = "allowed_upload_extensions",
@@ -493,6 +493,20 @@ namespace E_Commerce.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "12329f10-ef4e-4922-bb05-3e7a3ffdd125",
+                            Name = "sa",
+                            NormalizedName = "SA"
+                        },
+                        new
+                        {
+                            Id = "e32c6f7a-3cf5-4ee0-9d1c-13e4af64d364",
+                            Name = "can_view_users",
+                            NormalizedName = "CAN_VIEW_USERS"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -548,12 +562,10 @@ namespace E_Commerce.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -582,6 +594,18 @@ namespace E_Commerce.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "9055afc0-351b-4dcd-80cf-11b1fb0a729b",
+                            RoleId = "12329f10-ef4e-4922-bb05-3e7a3ffdd125"
+                        },
+                        new
+                        {
+                            UserId = "1da7364d-fc6b-4e3e-b290-56727fec2c65",
+                            RoleId = "e32c6f7a-3cf5-4ee0-9d1c-13e4af64d364"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -590,12 +614,10 @@ namespace E_Commerce.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
