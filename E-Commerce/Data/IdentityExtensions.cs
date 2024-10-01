@@ -2,7 +2,7 @@
 using NuGet.Protocol;
 using System.Security.Claims;
 using System.Security.Principal;
-using static Mobile_Shop_Management_System.Data.Enums;
+//using static E_Commerce.Data.Enums;
 
 public static class IdentityExtensions
 {
@@ -23,7 +23,7 @@ public static class IdentityExtensions
   {
     if (identity.IsAuthenticated)
     {
-      return "YADGAR Apple Store";
+      return "De-Arte Home";
     }
     else
     {

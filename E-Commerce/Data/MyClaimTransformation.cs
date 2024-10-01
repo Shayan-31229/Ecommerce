@@ -26,6 +26,7 @@ public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationU
     
     identity.AddClaim(new Claim("UserID", user.Id.ToString()));
     identity.AddClaim(new Claim("FullName", user.FullName ?? ""));
+    identity.AddClaim(new Claim("MemberSince", user.MemberSince.ToString("dd MMM yyyy") ?? "N/A"));
     
     
     //if (appUser.ProfilePicture != null)
