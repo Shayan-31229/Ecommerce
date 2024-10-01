@@ -16,17 +16,14 @@
     <partial name="_domain" />
 
 </head>
-<body class="fixed-sn mdb-skin en">
+<body class="homepage-v1 hidden-sn white-skin animated">
     <header>
-        <partial name="Public/_sidebar" />
         <partial name="Public/_topbar" />
-    </header>
-    <main class="main mx-0">
-        <partial name="_FlashMessages" />
-        <div class="container-fluid mb-5"> 
-            @RenderBody()
-        </div>
-    </main>
+    </header> 
+    <partial name="_FlashMessages" />
+        
+    @RenderBody()
+         
 
     <partial name="Public/_footer" />
 
