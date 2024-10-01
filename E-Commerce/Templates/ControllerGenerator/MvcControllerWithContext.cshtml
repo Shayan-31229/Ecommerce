@@ -1,0 +1,429 @@
+@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Reflection
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Identity5.Repository.Interfaces;
+using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.WebUtilities;
+using Identity5.Models.VMs;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Localization;
+
+@{
+    foreach (var namespaceName in Model.RequiredNamespaces)
+    {
+@:using @namespaceName;
+    }
+}
+
+namespace @Model.ControllerNamespace
+{
+@{
+    string routePrefix;
+    if (String.IsNullOrEmpty(Model.AreaName))
+    {
+        routePrefix = Model.ControllerRootName;
+    }
+    else
+    {
+        routePrefix = Model.AreaName + "/" + Model.ControllerRootName;
+    }
+    var modelProperties = new List<string>();
+    foreach (var property in Model.ModelMetadata.Properties)
+    {
+        if (property.Scaffold)
+        {
+            modelProperties.Add(property.PropertyName);
+        }
+    }
+    var bindString = string.Join(",", modelProperties);
+    var contextTypeName = Model.ContextTypeName;
+    var entitySetName = Model.ModelMetadata.EntitySetName;
+    var entitySetVar = Model.EntitySetVariable ??
+        (String.IsNullOrEmpty(entitySetName)
+            ? entitySetName
+            : (entitySetName.Substring(0, length: 1).ToLowerInvariant() + entitySetName.Substring(1)));
+    var primaryKeyName = Model.ModelMetadata.PrimaryKeys[0].PropertyName;
+    var primaryKeyShortTypeName = Model.ModelMetadata.PrimaryKeys[0].ShortTypeName;
+    var primaryKeyType = Model.ModelMetadata.PrimaryKeys[0].TypeName;
+    var primaryKeyNullableTypeName = GetNullableTypeName(primaryKeyType, primaryKeyShortTypeName);
+    var lambdaVar = Model.ModelVariable[0];
+    var relatedProperties = new Dictionary<string, dynamic>();
+    foreach (var nav in Model.ModelMetadata.Navigations)
+    {
+        relatedProperties.Add(nav.AssociationPropertyName, nav);
+
+    }
+
+    var inlineIncludes = "";
+    foreach (var property in relatedProperties.Values)
+    {
+        inlineIncludes += string.Format("{0}                .Include({1} => {1}.{2})", Environment.NewLine, lambdaVar, property.AssociationPropertyName);
+    }
+
+    if (!string.IsNullOrEmpty(Model.AreaName))
+    {
+    @:@string.Format("[Area(\"{0}\")]", Model.AreaName)
+    }
+}
+    public class @Model.ControllerName : Controller
+    {
+        private readonly @Model.ContextTypeName _context;
+        private readonly IRecordCountService _recordCountService;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+
+        public @(Model.ControllerName)(@Model.ContextTypeName context, IRecordCountService recordCountService, IStringLocalizer<SharedResource> sharedLocalizer)
+        {
+            _context = context;
+            _recordCountService = recordCountService;
+            _sharedLocalizer = sharedLocalizer;
+        }
+
+        // GET: @routePrefix
+@{
+        @:public async Task<IActionResult> Index()
+        @:{     
+            @:return View();
+    
+}        }
+
+    // GET: @routePrefix
+@{
+        @:public async Task<IActionResult>getdata()
+        @:{
+        @:var queryString = Request.QueryString.ToString();
+        @:IDictionary<string, StringValues> qs = QueryHelpers.ParseQuery(queryString);
+
+
+        @:var entityType = _context.Model.FindEntityType(typeof(@Model.ModelTypeName));
+        @://var entityType = typeof(@("DT"+Model.ModelTypeName));
+        @:var cols = entityType.GetProperties().Select(p => p.Name).ToArray();
+@:
+@:
+        @:string qry = "select * from " + entityType.GetTableName() + " where 1=1 ";
+@:
+        @:string mainConds = "";
+@:
+        @://ordering
+        @:string orderBy = "";
+        @:if (qs.ContainsKey("iSortingCols") && !string.IsNullOrEmpty(qs["iSortingCols"]))
+        @:{
+            @:var numOfSortCols = Convert.ToInt32(qs["iSortingCols"]);
+            @:List<string> dtOrders = new List<string>();
+            @:for (int i = 0; i < numOfSortCols; i++)
+            @:{
+                @:dtOrders.Add(qs["mDataProp_" + Convert.ToInt32(qs["iSortCol_" + i])] + " " + qs["sSortDir_" + i]);
+            @:}
+            @:if (dtOrders.Count > 0)
+            @:{
+                @:orderBy = " ORDER BY " + string.Join(",", dtOrders);
+            @:}
+        @:}
+@:
+        @://main filter
+@:
+        @:List<string> filterCondsList = new List<string>();
+        @:if (qs.ContainsKey("sSearch") && !string.IsNullOrEmpty(qs["sSearch"]))
+        @:{
+            @:var searchTerm = qs["sSearch"];
+            @:foreach (var col in cols)
+            @:{
+                @:string thisCond = " " + col + " LIKE '%" + searchTerm + "%'";
+                @:filterCondsList.Add(thisCond);
+            @:}
+        @:}
+        @:string filterConds = "";
+        @:if (filterCondsList.Count > 0)
+        @:{
+            @:filterConds = "(" + string.Join(" OR ", filterCondsList) + ")";
+        @:}
+@:
+@:
+        @://column level filtering
+        @:string colConds = "";
+        @:int qsColumns = Convert.ToInt32(qs["iColumns"]);
+        @:for (int i = 0; i < qsColumns; i++)
+        @:{
+            @:var searchableKey = "bSearchable_" + i;
+            @:var cSearchTermIndx = "sSearch_" + i;
+@:
+            @:if (qs.ContainsKey(searchableKey) && qs[searchableKey] == "true" && qs.ContainsKey(cSearchTermIndx) && !string.IsNullOrEmpty(qs[cSearchTermIndx]))
+            @:{
+                @:colConds += " AND " + qs["mDataProp_" + i] + " LIKE '%" + qs[cSearchTermIndx] + "%'";
+            @:}
+        @:}
+        @:if (colConds != "")
+        @:{
+            @:colConds = colConds.Substring(4);
+        @:}
+@:
+@:
+        @://prepare execute sql query
+        @:string sqlQry = qry + mainConds;
+        @://int totalRecords = await getTototalRecordsAsync(sqlQry);
+        @:int totalRecords = await _recordCountService.GetTotalRecordsAsync(sqlQry);
+@:
+        @:if (!string.IsNullOrEmpty(filterConds))
+        @:{
+            @:sqlQry += " AND " + filterConds;
+        @:}
+@:
+        @:if (!string.IsNullOrEmpty(colConds))
+        @:{
+            @:sqlQry += " AND " + colConds;
+        @:}
+        @:int recordsFiltered = await _recordCountService.GetTotalRecordsAsync(sqlQry);
+        @:if (!string.IsNullOrEmpty(orderBy))
+        @:{
+            @:sqlQry += orderBy;
+        @:}
+@:
+        @:int displaySkip = Convert.ToInt32(qs["iDisplayStart"]);
+        @:int displayLength = Convert.ToInt32(qs["iDisplayLength"]);
+@:
+        @:sqlQry += " OFFSET " + displaySkip + " ROWS FETCH NEXT " + displayLength + " ROWS ONLY";
+@:
+        @:var gates = _context.Database.SqlQueryRaw<@Model.ModelTypeName>(sqlQry).ToList();
+@:
+        @:DataTableResponse<@Model.ModelTypeName> response = new DataTableResponse<@Model.ModelTypeName>();
+        @:response.draw = qs["sEcho"];
+        @:response.recordsTotal = totalRecords;
+        @:response.recordsFiltered = recordsFiltered;
+        @:response.data = gates;
+@:
+        @:var json = JsonConvert.SerializeObject(response);
+@:
+        @:return Content(json, "application/json");
+}        }
+
+        // GET: @routePrefix/Details/5
+        public async Task<IActionResult> Details(@primaryKeyNullableTypeName id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @Model.ModelVariable = await _context.@(entitySetName)@inlineIncludes
+                .FirstOrDefaultAsync(m => m.@primaryKeyName == id);
+            if (@Model.ModelVariable == null)
+            {
+                return NotFound();
+            }
+
+            return View(@Model.ModelVariable);
+        }
+
+        // GET: @routePrefix/Create
+        public IActionResult Create()
+        {
+@{
+    foreach (var property in relatedProperties.Values)
+    {
+            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName");
+    }
+}            return View();
+        }
+
+        // POST: @routePrefix/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(@Model.ModelTypeName @Model.ModelVariable)
+        {
+            @(Model.ModelVariable).created = DateTime.Now;
+            @(Model.ModelVariable).created_by = Convert.ToInt32(User.Identity.UserId());
+            if (ModelState.IsValid)
+            {
+@{
+    if (!string.IsNullOrEmpty(primaryKeyType) && IsGuid(primaryKeyType))
+    {
+                @:@(Model.ModelVariable).@primaryKeyName = Guid.NewGuid();
+    }
+                @:_context.Add(@Model.ModelVariable);
+                @:await _context.SaveChangesAsync();
+                @:this.Flash(_sharedLocalizer["New record created successfully"], "success");
+}                return RedirectToAction(nameof(Index));
+            }
+@{
+    foreach (var property in relatedProperties.Values)
+    {
+            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+    }
+}
+            return View(@Model.ModelVariable);
+        }
+
+        // GET: @routePrefix/Edit/5
+        public async Task<IActionResult> Edit(@primaryKeyNullableTypeName id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @Model.ModelVariable = await _context.@(entitySetName).FindAsync(id);
+            if (@Model.ModelVariable == null)
+            {
+                return NotFound();
+            }
+@{
+    foreach (var property in relatedProperties.Values)
+    {
+            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+    }
+}
+            return View(@Model.ModelVariable);
+        }
+
+        // POST: @routePrefix/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(@primaryKeyShortTypeName id, @Model.ModelTypeName @Model.ModelVariable)
+        {
+            if (id != @Model.ModelVariable.@primaryKeyName)
+            {
+                return NotFound();
+            }
+
+            @(Model.ModelVariable).modified = DateTime.Now;
+            @(Model.ModelVariable).modified_by = Convert.ToInt32(User.Identity.UserId());
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(@Model.ModelVariable);
+                    this.Flash(_sharedLocalizer["Record updated successfully"], "success");
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!@(Model.ModelTypeName)Exists(@Model.ModelVariable.@primaryKeyName))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+@{
+    foreach (var property in relatedProperties.Values)
+    {
+            @:ViewData["@(property.ForeignKeyPropertyNames[0])"] = new SelectList(_context.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName", @(Model.ModelVariable).@property.ForeignKeyPropertyNames[0]);
+    }
+}
+            return View(@Model.ModelVariable);
+        }
+
+        // GET: @routePrefix/Delete/5
+        public async Task<IActionResult> Delete(@primaryKeyNullableTypeName id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @Model.ModelVariable = await _context.@(entitySetName)@inlineIncludes
+                .FirstOrDefaultAsync(m => m.@primaryKeyName == id);
+            if (@Model.ModelVariable == null)
+            {
+                return NotFound();
+            }
+
+            return View(@Model.ModelVariable);
+        }
+
+        // POST: @routePrefix/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(@primaryKeyShortTypeName id)
+        {
+            var @Model.ModelVariable = await _context.@(entitySetName).FindAsync(id);
+            if (@Model.ModelVariable != null)
+            {
+                _context.@(entitySetName).Remove(@Model.ModelVariable);
+            }
+
+            await _context.SaveChangesAsync();
+            this.Flash(_sharedLocalizer["Record deleted successfully"], "success");
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool @(Model.ModelTypeName)Exists(@primaryKeyShortTypeName id)
+        {
+            return _context.@(entitySetName).Any(e => e.@primaryKeyName == id);
+        }
+    } 
+}
+@functions
+{
+    // This function converts the primary key short type name to its nullable equivalent when possible. This is required to make
+    // sure that an HTTP 400 error is thrown when the user tries to access the edit, delete, or details action with null values.
+    string GetNullableTypeName(string typeName, string shortTypeName)
+    {
+        // The exceptions are caught because if for any reason the type is user defined, then the short type name will be used.
+        // In that case the user will receive a server error if null is passed to the edit, delete, or details actions.
+        Type primaryKeyType = null;
+        try
+        {
+            primaryKeyType = Type.GetType(typeName);
+        }
+        catch
+        {
+        }
+        if (primaryKeyType != null && (!Microsoft.VisualStudio.Web.CodeGeneration.Templating.TypeUtilities.IsNullable(primaryKeyType) || IsGuid(typeName)))
+        {
+            return shortTypeName + "?";
+        }
+        return shortTypeName;
+    }
+
+    bool IsGuid(string typeName) {
+        return String.Equals("System.Guid", typeName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsNonNavigationProperty(PropertyInfo property)
+    {
+        return property.PropertyType.IsPrimitive ||
+               property.PropertyType.IsValueType ||
+               property.PropertyType == typeof(string) ||
+               (Nullable.GetUnderlyingType(property.PropertyType)?.IsValueType == true);
+    }
+
+    private static string GetFriendlyTypeName(Type type)
+    {
+        // Handle nullable types
+        if (Nullable.GetUnderlyingType(type) != null)
+        {
+            return $"{Nullable.GetUnderlyingType(type)?.Name}?";
+        }
+
+        return type.Name switch
+        {
+            "Int32" => "int",
+            "String" => "string",
+            "Boolean" => "bool",
+            "Int64" => "long",
+            "Double" => "double",
+            "Decimal" => "decimal",
+            "DateTime" => "DateTime",
+            _ => type.Name
+        };
+    }
+}
+
+

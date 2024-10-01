@@ -1,4 +1,6 @@
 using E_Commerce.Data;
+using E_Commerce.Repository.Interfaces;
+using E_Commerce.Repository.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>().AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IRecordCountService, RecordCountService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +29,10 @@ else
   // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
   app.UseHsts();
 }
+
+
+app.UseMiddleware<ClearSettingsCacheMiddleware>();
+MyHelper.Initialize(app.Services);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
