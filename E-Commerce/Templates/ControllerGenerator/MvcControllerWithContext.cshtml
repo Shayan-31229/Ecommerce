@@ -125,7 +125,7 @@ namespace @Model.ControllerNamespace
         @:List<string> filterCondsList = new List<string>();
         @:if (qs.ContainsKey("sSearch") && !string.IsNullOrEmpty(qs["sSearch"]))
         @:{
-            @:var searchTerm = qs["sSearch"];
+            @:var searchTerm = qs["sSearch"].ToString().Replace("'", "''");
             @:foreach (var col in cols)
             @:{
                 @:string thisCond = " " + col + " LIKE '%" + searchTerm + "%'";
@@ -149,7 +149,7 @@ namespace @Model.ControllerNamespace
 @:
             @:if (qs.ContainsKey(searchableKey) && qs[searchableKey] == "true" && qs.ContainsKey(cSearchTermIndx) && !string.IsNullOrEmpty(qs[cSearchTermIndx]))
             @:{
-                @:colConds += " AND " + qs["mDataProp_" + i] + " LIKE '%" + qs[cSearchTermIndx] + "%'";
+                @:colConds += " AND " + qs["mDataProp_" + i] + " LIKE '%" + qs[cSearchTermIndx].ToString().Replace("'", "''") + "%'";
             @:}
         @:}
         @:if (colConds != "")
